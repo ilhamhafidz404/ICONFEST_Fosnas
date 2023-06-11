@@ -1,18 +1,14 @@
 <template>
-  <div>
-    <h1>LARAVUE for ICONFEST</h1>
-    <router-link to="/home">ke Home</router-link>
-    <router-link to="/about">ke About</router-link>
-    <example-component></example-component>
+  <div class="main-wrapper main-wrapper-1">
+    <navbar></navbar>
+    <sidebar></sidebar>
     <router-view></router-view>
+    <!-- <feet></feet> -->
   </div>
 </template>
 
 <script>
-import ExampleComponent from "./components/ExampleComponent.vue";
-export default {
-  components: [ExampleComponent],
-};
+export default {};
 </script>
 
 <style>

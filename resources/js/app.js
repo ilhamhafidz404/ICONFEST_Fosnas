@@ -2,15 +2,22 @@ import "./bootstrap";
 import { createApp } from "vue";
 import router from "./router";
 
+// stisla
+import "../../public/template/css/components.css";
+
 const app = createApp({});
 
 // app.component("my-app", myApp);
 
 import myApp from "./App.vue";
-import ExampleComponent from "./components/ExampleComponent.vue";
+import navbar from "./components/navbar.vue";
+import sidebar from "./components/sidebar.vue";
+import feet from "./components/feet.vue";
 
 const components = {
-    ExampleComponent,
+    navbar,
+    sidebar,
+    feet,
     myApp,
 };
 
