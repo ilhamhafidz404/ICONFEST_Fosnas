@@ -5,6 +5,10 @@ import router from "./router";
 // stisla
 import "../../public/template/css/components.css";
 
+//
+import VueSweetalert2 from "vue-sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
+
 const app = createApp({});
 
 // app.component("my-app", myApp);
@@ -26,4 +30,5 @@ Object.entries(components).forEach(([name, component]) => {
 });
 
 app.use(router);
+app.use(VueSweetalert2);
 app.mount("#app");

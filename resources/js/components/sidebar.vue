@@ -8,49 +8,23 @@
         <a href="index.html">Fn</a>
       </div>
       <ul class="sidebar-menu">
-        <li class="menu-header">Dashboard</li>
-        <li class="dropdown active">
-          <a href="#" class="nav-link has-dropdown"
-            ><i class="fas fa-fire"></i><span>Dashboard</span></a
-          >
-          <ul class="dropdown-menu">
-            <li>
-              <router-link class="nav-link" to="/dashboard"
-                >General Dashboard</router-link
-              >
-            </li>
-            <li class="active">
-              <router-link class="nav-link" to="/about"
-                >Ecommerce Dashboard</router-link
-              >
-            </li>
-          </ul>
+        <li @click="activate('/')" :class="{ active: activeEl == '/' }">
+          <router-link class="nav-link" to="/">
+            <i class="fas fa-fire"></i>
+            <span>Dashboard</span>
+          </router-link>
         </li>
-        <li class="menu-header">Starter</li>
-        <li class="dropdown">
-          <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"
-            ><i class="fas fa-columns"></i> <span>Layout</span></a
-          >
-          <ul class="dropdown-menu">
-            <li>
-              <a class="nav-link" href="layout-default.html">Default Layout</a>
-            </li>
-            <li>
-              <a class="nav-link" href="layout-transparent.html"
-                >Transparent Sidebar</a
-              >
-            </li>
-            <li>
-              <a class="nav-link" href="layout-top-navigation.html"
-                >Top Navigation</a
-              >
-            </li>
-          </ul>
+        <li @click="activate('/users')" :class="{ active: activeEl == '/users' }">
+          <router-link class="nav-link" to="/users">
+            <i class="far fa-user"></i>
+            <span>User</span>
+          </router-link>
         </li>
-        <li>
-          <a class="nav-link" href="blank.html"
-            ><i class="far fa-square"></i> <span>Blank Page</span></a
-          >
+        <li @click="activate('/schools')" :class="{ active: activeEl == '/schools' }">
+          <router-link class="nav-link" to="/schools">
+            <i class="fas fa-school"></i>
+            <span>Sekolah</span>
+          </router-link>
         </li>
       </ul>
 
@@ -67,7 +41,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      activeEl: window.location.pathname,
+    };
+  },
+  methods: {
+    activate(el) {
+      this.activeEl = el;
+    },
+  },
+};
 </script>
 
 <style>
