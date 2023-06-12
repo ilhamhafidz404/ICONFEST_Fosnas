@@ -12,15 +12,32 @@ class UserController extends Controller
      */
     public function index()
     {
-        if (isset($_GET["search"]) && $_GET["search"] != "") {
-            $users = User::where("name", $_GET['search'])
-                ->orWhere("name", "LIKE", "%" . $_GET["search"] . "%")
-                ->with('school')
-                ->latest()
-                ->get();
+        if (isset($_GET["school"]) && $_GET["school"] != "") {
+            if (isset($_GET["search"]) && $_GET["search"] != "") {
+                $users = User::where("school_id", $_GET['school'])
+                    ->where("name", "LIKE", "%" . $_GET["search"] . "%")
+                    ->with('school')
+                    ->latest()
+                    ->get();
+            } else {
+                $users = User::where("school_id", $_GET['school'])
+                    ->with('school')
+                    ->latest()
+                    ->get();
+            }
         } else {
-            $users = User::with('school')->get();
+            if (isset($_GET["search"]) && $_GET["search"] != "") {
+                $users = User::whereNotIn('name', ['admin'])
+                    ->where("name", $_GET['search'])
+                    ->orWhere("name", "LIKE", "%" . $_GET["search"] . "%")
+                    ->with('school')
+                    ->latest()
+                    ->get();
+            } else {
+                $users = User::whereNotIn('name', ['admin'])->with('school')->get();
+            }
         }
+
         return response()->json($users);
     }
 

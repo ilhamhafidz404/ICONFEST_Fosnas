@@ -1,14 +1,16 @@
 <template>
   <div class="main-wrapper main-wrapper-1">
-    <navbar></navbar>
-    <sidebar></sidebar>
-    <router-view></router-view>
+    <navbar :data="data"></navbar>
+    <sidebar :role="data.roles[0].name"></sidebar>
+    <router-view :role="data.roles[0].name" :data="data"></router-view>
     <!-- <feet></feet> -->
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["data"],
+};
 </script>
 
 <style>

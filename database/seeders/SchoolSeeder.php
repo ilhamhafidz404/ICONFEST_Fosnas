@@ -15,7 +15,13 @@ class SchoolSeeder extends Seeder
     {
         School::insert([
             [
-
+                "name" => "FOSNAS ADMIN",
+                "images" => "-",
+                "address" => "-",
+                "map" => "-",
+                "description" => "-",
+            ],
+            [
                 "name" => "SMK PERTIWI KUNINGAN",
                 "images" => "-",
                 "address" => "-",

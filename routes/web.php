@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,8 +18,15 @@ use Illuminate\Support\Facades\Auth;
 // Route::get('/', function () {
 //     return view('app');
 // });
-Route::view('/{any}', 'app')->where('any', '.*');
-
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware(['auth'])->group(function () {
+    Route::view("/confirm-logout", 'confirmLogout');
+    // Route::view('/{any}', 'app')->where('any', '.*');
+    Route::get('/{any}', function () {
+        $me = User::with(['roles', 'school'])->whereId(Auth::user()->id)->first();
+        return view('app', ["data" => $me]);
+    })->where('any', '.*');
+});

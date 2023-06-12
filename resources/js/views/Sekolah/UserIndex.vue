@@ -5,7 +5,7 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h4>Data Sekolah Anggota FOSNAS</h4>
+              <h4>Data Anggota OSIS</h4>
               <div class="card-header-form">
                 <form v-on:submit.prevent="filteredSearch">
                   <div class="input-group">
@@ -35,20 +35,14 @@
               <div class="table-responsive">
                 <table class="table table-striped">
                   <tr>
-                    <th>ID</th>
-                    <th>Nama Sekolah</th>
-                    <th>Alamat</th>
-                    <th>Deskripsi</th>
+                    <th>#</th>
+                    <th>Nama Anggota</th>
                     <th>Opsi</th>
                   </tr>
-                  <tbody v-if="!loading && schools.length">
-                    <tr v-for="school in schools" :key="school.id">
-                      <td>FS-{{ school.id }}</td>
-                      <td>{{ school.name }}</td>
-                      <td>{{ school.address }}</td>
-                      <td>
-                        {{ school.description }}
-                      </td>
+                  <tbody v-if="!loading && users.length">
+                    <tr v-for="(user, index) in users" :key="user.id">
+                      <td>{{ index + 1 }}</td>
+                      <td>{{ user.name }}</td>
                       <td>
                         <div>
                           <button
@@ -62,7 +56,8 @@
                             class="btn btn-danger"
                             data-toggle="tooltip"
                             title="Hapus"
-                            @click="deleteSchool(school.id)"
+                            @click="deleteUser(user.id)"
+                            v-if="role != 'pengurus osis' && role != 'anggota'"
                           >
                             <i class="fas fa-trash"></i>
                           </button>
@@ -96,9 +91,10 @@
 <script>
 import axios from "axios";
 export default {
+  props: ["data", "role"],
   data() {
     return {
-      schools: [],
+      users: [],
 
       filterSearch: "",
       loading: true,
@@ -109,23 +105,30 @@ export default {
     filteredSearch() {
       this.loading = true;
       axios
-        .get("http://127.0.0.1:8000/api/schools?search=" + this.filterSearch)
+        .get(
+          "http://127.0.0.1:8000/api/users?search=" +
+            this.filterSearch +
+            "&school=" +
+            this.data.school_id
+        )
         .then((res) => {
           this.loading = false;
           this.onSearch = true;
-          this.schools = res.data;
+          this.users = res.data;
         });
     },
     reset() {
       this.loading = true;
       this.filterSearch = "";
-      axios.get("http://127.0.0.1:8000/api/schools").then((res) => {
-        this.loading = false;
-        this.onSearch = false;
-        this.schools = res.data;
-      });
+      axios
+        .get("http://127.0.0.1:8000/api/users?school=" + this.data.school_id)
+        .then((res) => {
+          this.loading = false;
+          this.onSearch = false;
+          this.users = res.data;
+        });
     },
-    deleteSchool(id) {
+    deleteUser(id) {
       this.$swal({
         title: "Apakah kamu yakin?",
         icon: "question",
@@ -137,15 +140,15 @@ export default {
         cancelButtonText: "Batalkan",
       }).then((result) => {
         if (result.value) {
-          axios.delete("http://127.0.0.1:8000/api/schools/" + id).then(() => {
-            axios.get("http://127.0.0.1:8000/api/schools").then((res) => {
+          axios.delete("http://127.0.0.1:8000/api/users/" + id).then((res) => {
+            axios.get("http://127.0.0.1:8000/api/users").then((res) => {
               this.$swal(
                 "Berhasil Dihapus",
-                "Data Sekolah telah berhasil dihapus",
+                "Data user telah berhasil dihapus",
                 "success"
               );
               this.loading = false;
-              this.schools = res.data;
+              this.users = res.data;
             });
           });
         }
@@ -153,10 +156,12 @@ export default {
     },
   },
   mounted() {
-    axios.get("http://127.0.0.1:8000/api/schools").then((res) => {
-      this.loading = false;
-      this.schools = res.data;
-    });
+    axios
+      .get("http://127.0.0.1:8000/api/users?school=" + this.data.school_id)
+      .then((res) => {
+        this.loading = false;
+        this.users = res.data;
+      });
   },
 };
 </script>

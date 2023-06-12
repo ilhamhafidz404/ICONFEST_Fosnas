@@ -13,9 +13,13 @@ class SchoolController extends Controller
     public function index()
     {
         if (isset($_GET['search']) && $_GET != "") {
-            $schools = School::where("name", $_GET['search'])->orWhere("name", "LIKE", "%" . $_GET["search"] . "%")->latest()->get();
+            $schools = School::where("name", "!=", "FOSNAS ADMIN")
+                ->where("name", $_GET['search'])
+                ->orWhere("name", "LIKE", "%" . $_GET["search"] . "%")
+                ->latest()
+                ->get();
         } else {
-            $schools = School::latest()->get();
+            $schools = School::where("name", "!=", "FOSNAS ADMIN")->latest()->get();
         }
         return response()->json($schools);
     }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CountController;
+use App\Http\Controllers\OptionContoller;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -23,6 +24,8 @@ Route::apiResource('schools', SchoolController::class);
 
 Route::get("countUser", [CountController::class, "users"]);
 Route::get("countSchool", [CountController::class, "schools"]);
+
+Route::get("myData", [OptionContoller::class, 'mydata']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

@@ -23,7 +23,7 @@
 <body>
 
     <div id="app">
-      <my-app></my-app>
+      <my-app :data="{{ $data }}"></my-app>
     </div>
 
 
