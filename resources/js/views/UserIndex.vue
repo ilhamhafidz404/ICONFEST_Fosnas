@@ -39,7 +39,10 @@
               >
                 Tambah Anggota
               </button>
-              <button class="btn btn-success ml-3">Export Excel</button>
+              <button
+                class="btn btn-success ml-3" 
+                @click="exportUser"
+              >Export Excel</button>
             </div>
           </div>
         </div>
@@ -169,7 +172,14 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title text-xl font-bold">Tambah Anggota</h1>
+            <h1 class="modal-title text-xl font-bold">
+              <span v-if="!user.id">
+                Tambah Anggota
+              </span>
+              <span v-else>
+                Edit Anggota
+              </span>
+            </h1>
             <button
               class="btn-close"
               data-bs-dismiss="modal"
@@ -182,11 +192,11 @@
                 :src="previewImage" 
                 class="rounded-circle max-w-[130px] max-h-[130px] mx-auto object-cover"
                 :class="{
-                  ' min-w-[130px] min-h-[130px]' 
+                  'min-w-[130px] min-h-[130px]' 
                   : previewImage 
                 }" 
               />
-              <div class="form-group mb-1">
+              <div class="form-group mb-1" v-if="!user.id">
                 <label for="profile">Profile</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -264,11 +274,18 @@
               </div>
               <div v-if="role != 'super admin'" class="form-group">
                 <label>Sebagai</label>
-                <select class="custom-select" v-model="user.role">
+                <select 
+                  class="custom-select" 
+                  :class="{ 'is-invalid' : errors.role }" 
+                  v-model="user.role"
+                >
                   <option selected hidden>Pilih Role</option>
                   <option value="pengurus osis">Pengurus</option>
                   <option value="anggota">Anggota</option>
                 </select>
+                <div class="invalid-feedback">
+                    {{ errors.role }}
+                  </div>
               </div>
               <div v-else class="form-group">
                 <label>Sebagai</label>
@@ -372,12 +389,12 @@
                 >
                   Close
                 </button>
-                <button
+                <!-- <button
                   @click="handleSubmit"
                   class="btn btn-primary cursor-pointer"
                 >
                   Save changes
-                </button>
+                </button> -->
               </div>
             </div>
           </div>
@@ -405,6 +422,7 @@ export default {
         profile: "",
         school_id: this.data.school_id,
         role: "Pilih Role",
+        uploadProfile: false
       },
 
       filterSearch: "",
@@ -478,8 +496,33 @@ export default {
       this.errors.school= "";
       this.errors.role= "";
       this.errors.countError= 0;
+
+      this.previewImage = ""
+
+      document.getElementById("profile").value = "";
     },
-    //
+    exportUser(){
+      this.$swal({
+        title: "Konfirmasi Eksport Data User",
+        icon: "question",
+        text: "Apakah anda yakin ingin mengeksport data user",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, saya Yakin",
+        cancelButtonText: "Batalkan",
+      }).then((res) => {
+         if(res.isConfirmed){
+          window.open("http://127.0.0.1:8000/export/user", '_blank');
+          this.$swal(
+            "Berhasil Meng-eksport",
+            "Data user telah berhasil dieksport",
+            "success"
+          );
+         }
+      });
+    },
+    
     changePage(page, url) {
       let urlRequest = url;
       this.loading = true;
@@ -502,7 +545,18 @@ export default {
       this.user.role = data.roles[0].name;
       this.user.profile = data.profile
 
-      console.log(data)
+
+      if(
+        data.profile == 'avatar-1.png' ||
+        data.profile == 'avatar-2.png' ||  
+        data.profile == 'avatar-3.png' ||  
+        data.profile == 'avatar-4.png' ||  
+        data.profile == 'avatar-5.png'
+      ){
+        this.previewImage= `/images/profiles/default/${data.profile}`;
+      } else{
+        this.previewImage= `/images/profiles/${data.profile}`;
+      }
 
       $(modalTarget).modal("show");
     },
@@ -515,7 +569,6 @@ export default {
         this.user.profile = e.target.files[0];
 
         const input = e.target;
-        console.log(input.files)
         if (input.files) {
           var reader = new FileReader();
           reader.onload = (e) => {
@@ -524,36 +577,67 @@ export default {
           reader.readAsDataURL(input.files[0]);
         }
 
+        this.user.uploadProfile = true;
     },
     checkError(){
       if(this.user.name == ""){
         this.errors.name = "nama harus diisi";
         this.errors.countError+=1;
+      } else{
+        this.errors.name = "";
       }
+
       if(this.user.email == ""){
         this.errors.email = "email harus diisi";
         this.errors.countError+=1;
+      } else{
+        this.errors.email = "";
       }
+
       if(this.user.password == ""){
         this.errors.password = "password harus diisi";
         this.errors.countError+=1;
+      } else{
+        this.errors.password = "";
+      }
+
+      if(this.user.role == "Pilih Role" || this.user.role == ""){
+        this.errors.role = "Role harus dipilih";
+        this.errors.countError+=1;
+      } else{
+        this.errors.role = "";
+      }
+
+      if(
+        this.user.email != "" && 
+        !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.user.email)
+      ){
+        this.errors.email = "masukkan format email dengan benar";
+        this.errors.countError+=1;
+      } else{
+        this.errors.email = "";
       }
     },
     handleSubmit() {
-      
+      this.errors.countError = 0;
       this.checkError();
       
+      // jika sedang edit, maka password errornya hilangkan
+      if(this.user.id != 0 && this.errors.countError == 1){
+        this.errors.countError = 0;
+      }
+
+      const config = {
+        headers: { "Content-Type": "multipart/form-data" },
+      };
+      
       if(!this.errors.countError){
+
         this.loadingSubmit = true;
-  
         $("#userModalForm").modal("hide");
   
-        const config = {
-          headers: { "content-type": "multipart/form-data" },
-        };
         if (this.user.id == 0) {
           axios.post("http://127.0.0.1:8000/api/users", this.user, config).then((res) => {
-            console.log(res);
             this.loadingSubmit = false;
             this.loading = true;
             this.$swal(
@@ -573,11 +657,33 @@ export default {
               // reset user data
               this.resetUser();
             });
+          }).catch((er) => {
+            this.$swal(
+              "Gagal Menambah Anggota",
+              `${er.response.data.message}`,
+              "error"
+            );
+            this.loadingSubmit = false;
+
+            // reset user data
+            this.resetUser();
           });
         } else {
+
+          const formData = new FormData();
+          formData.append('id', this.user.id);
+          formData.append('name', this.user.name);
+          formData.append('email', this.user.email);
+          formData.append('password', this.user.password);
+          formData.append('profile', this.user.profile);
+          formData.append('school_id', this.data.school_id);
+          formData.append('role', this.user.role);
+          formData.append('uploadProfile', this.user.uploadProfile);
+
           axios
             .put(`http://127.0.0.1:8000/api/users/${this.user.id}`, this.user)
             .then((res) => {
+              console.log(res)
               this.loadingSubmit = false;
               this.loading = true;
               this.$swal(

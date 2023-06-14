@@ -3,6 +3,7 @@
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ExportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::middleware(['auth'])->group(function () {
     Route::view("/confirm-logout", 'confirmLogout');
+
+    // exports
+    Route::get("/export/user", [ExportController::class, "user"]);
+
     // Route::view('/{any}', 'app')->where('any', '.*');
     Route::get('/{any}', function () {
         $me = User::with(['roles', 'school'])->whereId(Auth::user()->id)->first();
