@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
         // super admin
         User::create([
             "name" => "admin",
+            "profile" => "avatar-1.png",
             "password" => bcrypt("admin"),
             "school_id" => 1,
             "email" => "admin@gmail.com"
@@ -24,6 +25,7 @@ class UserSeeder extends Seeder
         // admin sekolah
         User::create([
             "name" => "admin pertiwi",
+            "profile" => "avatar-2.png",
             "password" => bcrypt("adminpertiwi"),
             "school_id" => 2,
             "email" => "adminpertiwi@gmail.com"
@@ -31,6 +33,7 @@ class UserSeeder extends Seeder
 
         User::create([
             "name" => "admin scada",
+            "profile" => "avatar-3.png",
             "password" => bcrypt("adminscada"),
             "school_id" => 4,
             "email" => "adminscada@gmail.com"
@@ -39,6 +42,7 @@ class UserSeeder extends Seeder
         // pengurus osis
         User::create([
             "name" => "pengurus pertiwi",
+            "profile" => "avatar-4.png",
             "password" => bcrypt("penguruspertiwi"),
             "school_id" => 2,
             "email" => "penguruspertiwi@gmail.com"
@@ -46,6 +50,7 @@ class UserSeeder extends Seeder
 
         User::create([
             "name" => "pengurus scada",
+            "profile" => "avatar-5.png",
             "password" => bcrypt("pengurusscada"),
             "school_id" => 4,
             "email" => "pengurusscada@gmail.com"
@@ -54,6 +59,7 @@ class UserSeeder extends Seeder
         // anggota
         User::create([
             "name" => "Ilham",
+            "profile" => "avatar-1.png",
             "password" => bcrypt("ilham123"),
             "school_id" => 2,
             "email" => "ilhammhafidzz@gmail.com"
@@ -61,6 +67,7 @@ class UserSeeder extends Seeder
 
         User::create([
             "name" => "Ira",
+            "profile" => "avatar-2.png",
             "password" => bcrypt("ira123"),
             "school_id" => 4,
             "email" => "irairwanti@gmail.com"
@@ -68,6 +75,7 @@ class UserSeeder extends Seeder
 
         User::create([
             "name" => "Hafidz",
+            "profile" => "avatar-3.png",
             "password" => bcrypt("apid123"),
             "school_id" => 3,
             "email" => "imamhafidz@gmail.com"
@@ -75,6 +83,7 @@ class UserSeeder extends Seeder
 
         User::create([
             "name" => "Septi",
+            "profile" => "avatar-4.png",
             "password" => bcrypt("septi123"),
             "school_id" => 2,
             "email" => "sepiomel@gmail.com"

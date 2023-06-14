@@ -9,6 +9,9 @@ import "../../public/template/css/components.css";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
+import { QuillEditor } from "@vueup/vue-quill";
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
+
 const app = createApp({});
 
 // app.component("my-app", myApp);
@@ -28,6 +31,8 @@ const components = {
 Object.entries(components).forEach(([name, component]) => {
     app.component(name, component);
 });
+
+app.component("QuillEditor", QuillEditor);
 
 app.use(router);
 app.use(VueSweetalert2);

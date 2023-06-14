@@ -7,6 +7,7 @@
       <div class="sidebar-brand sidebar-brand-sm">
         <a href="index.html">Fn</a>
       </div>
+      <!-- untuk super admin -->
       <ul class="sidebar-menu" v-if="role == 'super admin'">
         <li @click="activate('/')" :class="{ active: activeEl == '/' }">
           <router-link class="nav-link" to="/">
@@ -41,7 +42,17 @@
             <span>Sekolah</span>
           </router-link>
         </li>
+        <li
+          @click="activate('/artikel')"
+          :class="{ active: activeEl == '/artikel' }"
+        >
+          <router-link class="nav-link" to="/artikel">
+            <i class="far fa-newspaper"></i>
+            <span>Artikel</span>
+          </router-link>
+        </li>
       </ul>
+
       <!-- Untuk admin sekolah -->
       <ul class="sidebar-menu" v-else-if="role == 'admin sekolah'">
         <li @click="activate('/')" :class="{ active: activeEl == '/' }">
@@ -63,9 +74,18 @@
           @click="activate('/users')"
           :class="{ active: activeEl == '/users' }"
         >
-          <router-link class="nav-link" to="/admin/users">
+          <router-link class="nav-link" to="/users">
             <i class="far fa-user"></i>
             <span>User</span>
+          </router-link>
+        </li>
+        <li
+          @click="activate('/artikel')"
+          :class="{ active: activeEl == '/artikel' }"
+        >
+          <router-link class="nav-link" to="/artikel">
+            <i class="far fa-newspaper"></i>
+            <span>Artikel</span>
           </router-link>
         </li>
       </ul>
@@ -96,6 +116,15 @@
             <span>User</span>
           </router-link>
         </li>
+        <li
+          @click="activate('/artikel')"
+          :class="{ active: activeEl == '/artikel' }"
+        >
+          <router-link class="nav-link" to="/artikel">
+            <i class="far fa-newspaper"></i>
+            <span>Artikel</span>
+          </router-link>
+        </li>
       </ul>
 
       <!-- untuk anggota -->
@@ -122,6 +151,15 @@
           <router-link class="nav-link" to="/anggota/users">
             <i class="far fa-user"></i>
             <span>User</span>
+          </router-link>
+        </li>
+        <li
+          @click="activate('/artikel')"
+          :class="{ active: activeEl == '/artikel' }"
+        >
+          <router-link class="nav-link" to="/artikel">
+            <i class="far fa-newspaper"></i>
+            <span>Artikel</span>
           </router-link>
         </li>
       </ul>

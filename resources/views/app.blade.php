@@ -17,6 +17,10 @@
   <link rel="stylesheet" href={{ @asset("template/modules/owlcarousel2/dist/assets/owl.carousel.min.css") }}>
   <link rel="stylesheet" href={{ @asset("template/modules/owlcarousel2/dist/assets/owl.theme.default.min.css") }}>
 
+  <link rel="stylesheet" href={{ @asset("template/modules/jquery-selectric/selectric.css") }}>
+  <!-- use the latest VueQuill release -->
+<link rel="stylesheet" href="https://unpkg.com/@vueup/vue-quill@latest/dist/vue-quill.snow.prod.css">
+
   @vite('resources/css/app.css')
 </head>
 
@@ -35,20 +39,17 @@
   <script src={{ @asset("template/modules/tooltip.js") }}></script>
   <script src={{ @asset("template/modules/bootstrap/js/bootstrap.min.js") }}></script>
   <script src={{ @asset("template/modules/nicescroll/jquery.nicescroll.min.js") }}></script>
-  <script src={{ @asset("template/modules/moment.min.js") }}></script>
   <script src={{ @asset("template/js/stisla.js") }}></script>
   
   <!-- JS Libraies -->
   <script src={{ @asset("template/modules/jquery.sparkline.min.js") }}></script>
   <script src={{ @asset("template/modules/chart.min.js") }}></script>
   <script src={{ @asset("template/modules/owlcarousel2/dist/owl.carousel.min.js") }}></script>
-  <script src={{ @asset("template/modules/summernote/summernote-bs4.js") }}></script>
   <script src={{ @asset("template/modules/chocolat/dist/js/jquery.chocolat.min.js") }}></script>
-  {{-- <script src={{ @asset("template/modules/sweetalert/sweetalert.min.js") }}></script> --}}
+  <script src={{ @asset("template/modules/jquery-selectric/jquery.selectric.min.js") }}></script>
+
   
-  <!-- Page Specific JS File -->
-  <script src={{ @asset("template/js/page/index.js") }}></script>
-  {{-- <script src={{ @asset("template/js/page/modules-sweetalert.js") }}></script> --}}
+<script src="https://unpkg.com/@vueup/vue-quill@latest"></script>
   
   <script src={{ @asset("template/js/scripts.js") }}></script>
   <script src={{ @asset("template/js/custom.js") }}></script>

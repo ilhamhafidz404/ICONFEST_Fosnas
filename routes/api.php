@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CountController;
 use App\Http\Controllers\OptionContoller;
 use App\Http\Controllers\SchoolController;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('users', UserController::class);
 Route::apiResource('schools', SchoolController::class);
+Route::apiResource('articles', ArticleController::class);
 
 Route::get("countUser", [CountController::class, "users"]);
 Route::get("countSchool", [CountController::class, "schools"]);
