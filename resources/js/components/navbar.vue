@@ -99,7 +99,7 @@
         </div>
       </form>
       <ul class="navbar-nav navbar-right">
-        <li class="dropdown dropdown-list-toggle">
+        <!-- <li class="dropdown dropdown-list-toggle">
           <a
             href="#"
             data-toggle="dropdown"
@@ -147,11 +147,11 @@
               </a>
               <a href="#" class="dropdown-item dropdown-item-unread">
                 <div class="dropdown-item-avatar">
-                  <!-- <img
+                  <img
                     alt="image"
                     src="assets/img/avatar/avatar-3.png"
                     class="rounded-circle"
-                  /> -->
+                  />
                   <div class="is-online"></div>
                 </div>
                 <div class="dropdown-item-desc">
@@ -201,71 +201,48 @@
               <a href="#">View All <i class="fas fa-chevron-right"></i></a>
             </div>
           </div>
-        </li>
+        </li> -->
         <li class="dropdown dropdown-list-toggle">
           <a
             href="#"
             data-toggle="dropdown"
-            class="nav-link notification-toggle nav-link-lg beep"
+            class="nav-link notification-toggle nav-link-lg"
+            :class="{ 'beep' : notificationCountNow != notificationCountOld }"
+            @click="readNotifications"
             ><i class="far fa-bell"></i
           ></a>
-          <div class="dropdown-menu dropdown-list dropdown-menu-right">
+          <div class="dropdown-menu dropdown-list dropdown-menu-right overflow-hidden">
             <div class="dropdown-header">
               Notifications
               <div class="float-right">
                 <a href="#">Mark All As Read</a>
               </div>
             </div>
-            <div class="dropdown-list-content dropdown-list-icons">
-              <a href="#" class="dropdown-item dropdown-item-unread">
+
+            <div class="dropdown-list-content dropdown-list-icons" style="overflow: auto">
+              <div 
+                v-for="notification in notifications" 
+                :key="notification.id"
+                class="dropdown-item cursor-pointer"
+              >
                 <div class="dropdown-item-icon bg-primary text-white">
                   <i class="fas fa-code"></i>
                 </div>
                 <div class="dropdown-item-desc">
-                  Template update is available now!
-                  <div class="time text-primary">2 Min Ago</div>
+                  <b>{{ notification.title }}</b>
+                  <p>Nama Tugas : {{ notification.body }}</p>
+                  
+                  <p 
+                    v-if="notification.status == 'pending'" 
+                    class="time text-primary"
+                  >
+                    {{ diffForHuman(notification.created_at) }}
+                  </p>
+                  <p v-else class="time text-primary">
+                    Sudah Dilihat - {{ diffForHuman(notification.created_at) }}
+                  </p>
                 </div>
-              </a>
-              <a href="#" class="dropdown-item">
-                <div class="dropdown-item-icon bg-info text-white">
-                  <i class="far fa-user"></i>
-                </div>
-                <div class="dropdown-item-desc">
-                  <b>You</b> and <b>Dedik Sugiharto</b> are now friends
-                  <div class="time">10 Hours Ago</div>
-                </div>
-              </a>
-              <a href="#" class="dropdown-item">
-                <div class="dropdown-item-icon bg-success text-white">
-                  <i class="fas fa-check"></i>
-                </div>
-                <div class="dropdown-item-desc">
-                  <b>Kusnaedi</b> has moved task <b>Fix bug header</b> to
-                  <b>Done</b>
-                  <div class="time">12 Hours Ago</div>
-                </div>
-              </a>
-              <a href="#" class="dropdown-item">
-                <div class="dropdown-item-icon bg-danger text-white">
-                  <i class="fas fa-exclamation-triangle"></i>
-                </div>
-                <div class="dropdown-item-desc">
-                  Low disk space. Let's clean it!
-                  <div class="time">17 Hours Ago</div>
-                </div>
-              </a>
-              <a href="#" class="dropdown-item">
-                <div class="dropdown-item-icon bg-info text-white">
-                  <i class="fas fa-bell"></i>
-                </div>
-                <div class="dropdown-item-desc">
-                  Welcome to Stisla template!
-                  <div class="time">Yesterday</div>
-                </div>
-              </a>
-            </div>
-            <div class="dropdown-footer text-center">
-              <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+              </div>
             </div>
           </div>
         </li>
@@ -311,10 +288,63 @@
 </template>
 
 <script>
+import axios from "axios";
+import moment from "moment";
 export default {
   props: ["data"],
+  data(){
+    return{
+      notifications: [],
+      notificatioId: 0,
+
+      notificationCountNow: 0,
+      notificationCountOld: 0,
+      firstHitGetNotification: true,
+    }
+  },
+  methods : {
+    diffForHuman(string) {
+      const date = moment(string);
+      return date.fromNow();
+    },
+    //
+    getNotifications() {
+      axios.get(`http://127.0.0.1:8000/api/notifications?user_id=${this.data.id}`)
+        .then((res) => {
+          this.notifications = res.data;
+
+          // jika awal hit api / kondisi awal notifikasi
+          if(this.firstHitGetNotification){
+            this.firstHitGetNotification = false;
+            this.notificationCountOld = res.data.length;
+          }
+
+          // ketika ada perubahan tidak cocoknya old dan new
+          if(this.notificationCountOld != this.notificationCountNow){
+
+          }
+          
+          this.notificationCountNow = res.data.length;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    readNotifications(){
+      this.notificationCountOld = this.notificationCountNow;
+      axios.put(`http://127.0.0.1:8000/api/notifications/${this.data.id}?user_id=${this.data.id}`, { status: "read" });
+    },
+  },
+  mounted(){
+    this.getNotifications();
+    this.notificationCountOld = this.notifications.length;
+    setInterval(this.getNotifications, 10000); // Kirim permintaan setiap 5 detik
+  }
 };
 </script>
 
 <style>
+div.dropdown-list-content.dropdown-list-icons::after{
+  display: none !important;
+}
 </style>

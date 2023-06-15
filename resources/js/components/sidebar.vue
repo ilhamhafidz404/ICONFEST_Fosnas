@@ -88,6 +88,15 @@
             <span>Artikel</span>
           </router-link>
         </li>
+        <li
+          @click="activate('/tasks')"
+          :class="{ active: activeEl == '/tasks' }"
+        >
+          <router-link class="nav-link" to="/tasks">
+            <i class="fas fa-tasks"></i>
+            <span>Proker</span>
+          </router-link>
+        </li>
       </ul>
 
       <!-- Untuk pengurus osis -->

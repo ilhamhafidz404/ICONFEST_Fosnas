@@ -107,7 +107,6 @@ export default {
   },
   methods: {
     filteredSearch() {
-      console.log("ewfwef");
       if (this.filterSearch != "") {
         axios
           .get("http://127.0.0.1:8000/api/articles?search=" + this.filterSearch)

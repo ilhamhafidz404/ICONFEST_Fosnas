@@ -4,7 +4,9 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CountController;
 use App\Http\Controllers\OptionContoller;
 use App\Http\Controllers\SchoolController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +25,8 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('users', UserController::class);
 Route::apiResource('schools', SchoolController::class);
 Route::apiResource('articles', ArticleController::class);
+Route::apiResource('tasks', TaskController::class);
+Route::apiResource('notifications', NotificationController::class);
 
 Route::get("countUser", [CountController::class, "users"]);
 Route::get("countSchool", [CountController::class, "schools"]);

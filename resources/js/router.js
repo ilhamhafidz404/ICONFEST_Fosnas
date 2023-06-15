@@ -26,6 +26,7 @@ import DashboardAnggota from "./views/Anggota/DashboardAnggota.vue";
 // route for all
 import ArtikelIndex from "./views/ArtikelIndex.vue";
 import ShowArtikel from "./views/ShowArtikel.vue";
+import TaskIndex from "./views/TaskIndex.vue";
 
 const routes = [
     { path: "/", component: Home },
@@ -37,6 +38,7 @@ const routes = [
     { path: "/artikel", component: ArtikelIndex },
     { path: "/artikel/:slug", component: ShowArtikel },
     { path: "/users", component: UserIndex },
+    { path: "/tasks", component: TaskIndex },
 
     // url pengurus
     { path: "/pengurus/dashboard", component: DahsboardPengurus },

@@ -38,7 +38,7 @@
   <script src={{ @asset("template/modules/popper.js") }}></script>
   <script src={{ @asset("template/modules/tooltip.js") }}></script>
   <script src={{ @asset("template/modules/bootstrap/js/bootstrap.min.js") }}></script>
-  <script src={{ @asset("template/modules/nicescroll/jquery.nicescroll.min.js") }}></script>
+  <!-- <script src={{ @asset("template/modules/nicescroll/jquery.nicescroll.min.js") }}></script> -->
   <script src={{ @asset("template/js/stisla.js") }}></script>
   
   <!-- JS Libraies -->
@@ -49,7 +49,13 @@
   <script src={{ @asset("template/modules/jquery-selectric/jquery.selectric.min.js") }}></script>
 
   
-<script src="https://unpkg.com/@vueup/vue-quill@latest"></script>
+  <script src="https://unpkg.com/@vueup/vue-quill@latest"></script>
+
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
   
   <script src={{ @asset("template/js/scripts.js") }}></script>
   <script src={{ @asset("template/js/custom.js") }}></script>
