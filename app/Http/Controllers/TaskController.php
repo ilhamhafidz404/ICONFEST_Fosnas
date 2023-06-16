@@ -16,7 +16,11 @@ class TaskController extends Controller
                 $query->where('user_id', $_GET["user"]);
             })->with(['users', 'school'])->whereSchoolId($_GET["school"])->latest()->paginate(10);
         } else{
-            $tasks = Task::with(['users', 'school'])->whereSchoolId($_GET["school"])->latest()->paginate(10);
+            if(isset($_GET["school"]) && $_GET["school"] != ""){
+                $tasks = Task::with(['users', 'school'])->whereSchoolId($_GET["school"])->latest()->paginate(10);
+            } else{
+                $tasks = Task::with(['users', 'school'])->latest()->paginate(10);
+            }
         }
         return response()->json($tasks);
     }

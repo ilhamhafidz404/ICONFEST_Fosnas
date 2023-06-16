@@ -15,7 +15,7 @@
             <span>Home</span>
           </router-link>
         </li>
-        <li
+        <!-- <li
           @click="activate('/dashboard')"
           :class="{ active: activeEl == '/dashboard' }"
         >
@@ -23,7 +23,7 @@
             <i class="fas fa-fire"></i>
             <span>Dashboard</span>
           </router-link>
-        </li>
+        </li> -->
         <li
           @click="activate('/users')"
           :class="{ active: activeEl == '/users' }"
@@ -31,61 +31,6 @@
           <router-link class="nav-link" to="/users">
             <i class="far fa-user"></i>
             <span>User</span>
-          </router-link>
-        </li>
-        <li
-          @click="activate('/schools')"
-          :class="{ active: activeEl == '/schools' }"
-        >
-          <router-link class="nav-link" to="/schools">
-            <i class="fas fa-school"></i>
-            <span>Sekolah</span>
-          </router-link>
-        </li>
-        <li
-          @click="activate('/artikel')"
-          :class="{ active: activeEl == '/artikel' }"
-        >
-          <router-link class="nav-link" to="/artikel">
-            <i class="far fa-newspaper"></i>
-            <span>Artikel</span>
-          </router-link>
-        </li>
-      </ul>
-
-      <!-- Untuk admin sekolah -->
-      <ul class="sidebar-menu" v-else-if="role == 'admin sekolah'">
-        <li @click="activate('/')" :class="{ active: activeEl == '/' }">
-          <router-link class="nav-link" to="/">
-            <i class="fas fa-home"></i>
-            <span>Home</span>
-          </router-link>
-        </li>
-        <li
-          @click="activate('/dashboard')"
-          :class="{ active: activeEl == '/dashboard' }"
-        >
-          <router-link class="nav-link" to="/admin/dashboard">
-            <i class="fas fa-fire"></i>
-            <span>Dashboard</span>
-          </router-link>
-        </li>
-        <li
-          @click="activate('/users')"
-          :class="{ active: activeEl == '/users' }"
-        >
-          <router-link class="nav-link" to="/users">
-            <i class="far fa-user"></i>
-            <span>User</span>
-          </router-link>
-        </li>
-        <li
-          @click="activate('/artikel')"
-          :class="{ active: activeEl == '/artikel' }"
-        >
-          <router-link class="nav-link" to="/artikel">
-            <i class="far fa-newspaper"></i>
-            <span>Artikel</span>
           </router-link>
         </li>
         <li
@@ -97,7 +42,94 @@
             <span>Proker</span>
           </router-link>
         </li>
+        <li
+          @click="activate('/activities')"
+          :class="{ active: activeEl == '/activities' }"
+        >
+          <router-link class="nav-link" to="/activities">
+            <i class="fas fa-chart-line"></i>
+            <span>Aktifitas</span>
+          </router-link>
+        </li>
+        <!-- <li
+          @click="activate('/schools')"
+          :class="{ active: activeEl == '/schools' }"
+        >
+          <router-link class="nav-link" to="/schools">
+            <i class="fas fa-school"></i>
+            <span>Sekolah</span>
+          </router-link>
+        </li> -->
+        <!-- <li
+          @click="activate('/artikel')"
+          :class="{ active: activeEl == '/artikel' }"
+        >
+          <router-link class="nav-link" to="/artikel">
+            <i class="far fa-newspaper"></i>
+            <span>Artikel</span>
+          </router-link>
+        </li> -->
       </ul>
+
+
+
+
+      <!-- Untuk admin sekolah -->
+      <ul class="sidebar-menu" v-else-if="role == 'admin sekolah'">
+        <li @click="activate('/')" :class="{ active: activeEl == '/' }">
+          <router-link class="nav-link" to="/">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+          </router-link>
+        </li>
+        <!-- <li
+          @click="activate('/dashboard')"
+          :class="{ active: activeEl == '/dashboard' }"
+        >
+          <router-link class="nav-link" to="/admin/dashboard">
+            <i class="fas fa-fire"></i>
+            <span>Dashboard</span>
+          </router-link>
+        </li> -->
+        <li
+          @click="activate('/users')"
+          :class="{ active: activeEl == '/users' }"
+        >
+          <router-link class="nav-link" to="/users">
+            <i class="far fa-user"></i>
+            <span>User</span>
+          </router-link>
+        </li>
+        <li
+          @click="activate('/tasks')"
+          :class="{ active: activeEl == '/tasks' }"
+        >
+          <router-link class="nav-link" to="/tasks">
+            <i class="fas fa-tasks"></i>
+            <span>Proker</span>
+          </router-link>
+        </li>
+        <li
+          @click="activate('/activities')"
+          :class="{ active: activeEl == '/activities' }"
+        >
+          <router-link class="nav-link" to="/activities">
+            <i class="fas fa-chart-line"></i>
+            <span>Aktifitas</span>
+          </router-link>
+        </li>
+        <!-- <li
+          @click="activate('/artikel')"
+          :class="{ active: activeEl == '/artikel' }"
+        >
+          <router-link class="nav-link" to="/artikel">
+            <i class="far fa-newspaper"></i>
+            <span>Artikel</span>
+          </router-link>
+        </li> -->
+      </ul>
+
+
 
       <!-- Untuk pengurus osis -->
       <ul class="sidebar-menu" v-else-if="role == 'pengurus osis'">
@@ -107,7 +139,7 @@
             <span>Home</span>
           </router-link>
         </li>
-        <li
+        <!-- <li
           @click="activate('/dashboard')"
           :class="{ active: activeEl == '/dashboard' }"
         >
@@ -115,17 +147,35 @@
             <i class="fas fa-fire"></i>
             <span>Dashboard</span>
           </router-link>
-        </li>
+        </li> -->
         <li
           @click="activate('/users')"
           :class="{ active: activeEl == '/users' }"
         >
-          <router-link class="nav-link" to="/pengurus/users">
+          <router-link class="nav-link" to="/users">
             <i class="far fa-user"></i>
             <span>User</span>
           </router-link>
         </li>
         <li
+          @click="activate('/tasks')"
+          :class="{ active: activeEl == '/tasks' }"
+        >
+          <router-link class="nav-link" to="/tasks">
+            <i class="fas fa-tasks"></i>
+            <span>Proker</span>
+          </router-link>
+        </li>
+        <li
+          @click="activate('/activities')"
+          :class="{ active: activeEl == '/activities' }"
+        >
+          <router-link class="nav-link" to="/activities">
+            <i class="fas fa-chart-line"></i>
+            <span>Aktifitas</span>
+          </router-link>
+        </li>
+        <!-- <li
           @click="activate('/artikel')"
           :class="{ active: activeEl == '/artikel' }"
         >
@@ -133,7 +183,7 @@
             <i class="far fa-newspaper"></i>
             <span>Artikel</span>
           </router-link>
-        </li>
+        </li> -->
       </ul>
 
       <!-- untuk anggota -->
@@ -144,7 +194,7 @@
             <span>Home</span>
           </router-link>
         </li>
-        <li
+        <!-- <li
           @click="activate('/dashboard')"
           :class="{ active: activeEl == '/dashboard' }"
         >
@@ -152,17 +202,35 @@
             <i class="fas fa-fire"></i>
             <span>Dashboard</span>
           </router-link>
-        </li>
+        </li> -->
         <li
           @click="activate('/users')"
           :class="{ active: activeEl == '/users' }"
         >
-          <router-link class="nav-link" to="/anggota/users">
+          <router-link class="nav-link" to="/users">
             <i class="far fa-user"></i>
             <span>User</span>
           </router-link>
         </li>
         <li
+          @click="activate('/tasks')"
+          :class="{ active: activeEl == '/tasks' }"
+        >
+          <router-link class="nav-link" to="/tasks">
+            <i class="fas fa-tasks"></i>
+            <span>Proker</span>
+          </router-link>
+        </li>
+        <li
+          @click="activate('/activities')"
+          :class="{ active: activeEl == '/activities' }"
+        >
+          <router-link class="nav-link" to="/activities">
+            <i class="fas fa-chart-line"></i>
+            <span>Aktifitas</span>
+          </router-link>
+        </li>
+        <!-- <li
           @click="activate('/artikel')"
           :class="{ active: activeEl == '/artikel' }"
         >
@@ -170,7 +238,7 @@
             <i class="far fa-newspaper"></i>
             <span>Artikel</span>
           </router-link>
-        </li>
+        </li> -->
       </ul>
 
       <div class="mt-4 mb-4 p-3 hide-sidebar-mini">

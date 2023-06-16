@@ -33,6 +33,7 @@
             </div>
             <div>
               <button
+                v-if="role != 'anggota' && role != 'pengurus osis'"
                 class="btn btn-primary"
                 data-bs-toggle="modal"
                 data-bs-target="#userModalForm"
@@ -96,6 +97,7 @@
                               <i class="fas fa-eye"></i>
                             </button>
                             <button
+                              v-if="role != 'anggota' && role != 'pengurus osis'"
                               class="btn btn-info mx-2"
                               data-toggle="tooltip"
                               title="Edit"
@@ -104,6 +106,7 @@
                               <i class="fas fa-pen"></i>
                             </button>
                             <button
+                              v-if="role != 'anggota' && role != 'pengurus osis'"
                               class="btn btn-danger"
                               data-toggle="tooltip"
                               title="Hapus"

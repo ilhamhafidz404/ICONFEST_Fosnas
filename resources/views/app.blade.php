@@ -38,7 +38,7 @@
   <script src={{ @asset("template/modules/popper.js") }}></script>
   <script src={{ @asset("template/modules/tooltip.js") }}></script>
   <script src={{ @asset("template/modules/bootstrap/js/bootstrap.min.js") }}></script>
-  <!-- <script src={{ @asset("template/modules/nicescroll/jquery.nicescroll.min.js") }}></script> -->
+  <script src={{ @asset("template/modules/nicescroll/jquery.nicescroll.min.js") }}></script>
   <script src={{ @asset("template/js/stisla.js") }}></script>
   
   <!-- JS Libraies -->

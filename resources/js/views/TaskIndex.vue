@@ -33,6 +33,7 @@
             </div>
             <div>
               <button
+                v-if="role != 'anggota' && role != 'pengurus osis'"
                 class="btn btn-primary"
                 data-bs-toggle="modal"
                 data-bs-target="#prokerModalForm"
@@ -54,7 +55,7 @@
                 <h4 v-if="role == 'super admin'">Data Program Kerja Anggota FOSNAS</h4>
                 <h4 v-else>Data Program Kerja {{ data.school.name }}</h4>
 
-                <button v-if="!thisMyTasks" @click="getMyTask" class="btn btn-secondary">
+                <button v-if="!thisMyTasks && role != 'super admin'" @click="getMyTask" class="btn btn-secondary">
                   Filter proker saya
                 </button>
                 <button v-else @click="getTasks(true)" class="btn btn-secondary">
@@ -125,6 +126,7 @@
                               <i class="fas fa-eye"></i>
                             </button>
                             <button
+                              v-if="role != 'anggota' && role != 'pengurus osis'"
                               class="btn btn-info mx-2"
                               data-toggle="tooltip"
                               title="Edit"
@@ -133,6 +135,7 @@
                               <i class="fas fa-pen"></i>
                             </button>
                             <button
+                              v-if="role != 'anggota' && role != 'pengurus osis'"
                               class="btn btn-danger"
                               data-toggle="tooltip"
                               title="Hapus"
@@ -221,6 +224,7 @@
                     :class="{ 'is-invalid': errors.name }"
                     placeholder="Name"
                     v-model="task.name"
+                    :disabled="isSuccessorCancelTask"
                   />
                   <div class="invalid-feedback">
                     {{ errors.name }}
@@ -235,6 +239,7 @@
                     :class="{ 'is-invalid': errors.description }"
                     placeholder="Description"
                     v-model="task.description"
+                    :disabled="isSuccessorCancelTask"
                   ></textarea>
                   <div class="invalid-feedback">
                     {{ errors.description }}
@@ -247,6 +252,7 @@
                   class="form-control"
                   :class="{ 'is-invalid': errors.status }"
                   v-model="task.status"
+                  :disabled="isSuccessorCancelTask"
                 >
                   <option value="progress">Progress</option>
                   <option value="success">Success</option>
@@ -267,24 +273,28 @@
                   <option v-for="user in users" :key="user.id" :value="user.id">
                     {{ user.name }}
                   </option>
-                </select>
+                </select> 
                 <div class="invalid-feedback">
                   {{ errors.users }}
                 </div>
               </div>
             </form>
           </div>
-          <div class="modal-footer">
-            <button
-              @click="resetTask"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button @click="handleSubmit" class="btn btn-primary">
-              Submit
-            </button>
+          <div class="modal-footer" :class="{ ' flex justify-content-between' : task.status != 'progress' }">
+            <small class="text-danger" v-if="task.status == 'success'">Tidak bisa edit data yang sudah success</small>
+            <small class="text-danger" v-else-if="task.status == 'cancel'">Proker ini di cancel</small>
+            <div>
+              <button
+                @click="resetTask"
+                class="btn btn-secondary mr-2"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button @click="handleSubmit" class="btn btn-primary">
+                Submit
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -401,7 +411,8 @@ export default {
       },
 
       // 
-      thisMyTasks: false
+      thisMyTasks: false,
+      isSuccessorCancelTask: false,
     };
   },
   methods: {
@@ -442,6 +453,7 @@ export default {
       this.task.status = "progress";
       this.task.users = [];
       this.task.school_id = this.data.school_id;
+      this.isSuccessorCancelTask = false
 
       this.errors.name = "";
       this.errors.status = "";
@@ -473,7 +485,6 @@ export default {
     },
 
     changePage(page, url) {
-      console.log(url)
       let urlRequest = url;
       this.loading = true;
 
@@ -494,6 +505,10 @@ export default {
       this.task.description = data.description;
       this.task.users = data.users;
       this.task.status = data.status;
+
+      if(data.status == "success" || data.status == "cancel"){
+        this.isSuccessorCancelTask = true
+      }
 
       $(modalTarget).modal("show");
     },
@@ -649,7 +664,6 @@ export default {
         .then((res) => {
           this.loading = false;
           this.tasks = res.data.data;
-
           this.links = res.data.links;
       });
     }
@@ -662,9 +676,9 @@ export default {
       backdrop: "static",
     });
 
-    if (this.role == "super admin") {
-      this.user.role = "admin sekolah";
-    }
+    // if (this.role == "super admin") {
+    //   // this.user.role = "admin sekolah";
+    // }
 
     this.getTasks();
 
