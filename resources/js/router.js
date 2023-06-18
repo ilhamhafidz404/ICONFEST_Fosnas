@@ -27,6 +27,9 @@ import TaskIndex from "./views/TaskIndex.vue";
 import ActivityIndex from "./views/ActivityIndex.vue";
 import SchoolIndex from "./views/SchoolIndex.vue";
 
+// khusus
+import FreeAgent from "./views/_FreeAgent.vue";
+
 const routes = [
     { path: "/", component: Home },
 
@@ -53,6 +56,9 @@ const routes = [
 
     // url super admin
     { path: "/dashboard", component: DashboardAdmin },
+
+    // khusus
+    { path: "/freeagents", component: FreeAgent },
 ];
 
 const router = createRouter({

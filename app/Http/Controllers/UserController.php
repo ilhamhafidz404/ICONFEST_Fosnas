@@ -6,41 +6,54 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
 
     public function index()
     {
-        // cek jika data get kosong
-        if($_GET["school"] == 0){
-            return response()->json([
-                "message" => "Tidak memenuhi syarat get data"
-            ]);
-        }
 
-
-        // $users = User::where("name", "LIKE", "%" . $_GET["search"] . "%")
-        //     ->with(['roles' => function ($query) {
-        //         $query->select('name');
-        //     }, 'school'])
-        //     ->latest()
-        //     ->paginate($_GET['paginate']);
-
-        $users = User::where("name", "LIKE", "%" . $_GET["search"] . "%")
-            ->when($_GET["school"] == 1, function ($query) {
-                return $query->with(['roles' => function ($query) {
+        if($_GET["school"] == 1){
+            $users = User::where("name", "LIKE", "%" . $_GET["search"] . "%")
+                ->with(['roles' => function ($query) {
                     $query->select('name');
-                }]);
-            }, function ($query) {
-                return $query->where("school_id", $_GET['school'])
+                }, 'school'])
+                ->latest()
+                ->paginate($_GET['paginate']);
+        } else{
+            if($_GET["school"] == 0){
+                $users = User::whereSchoolId(1)
+                    ->whereHas('roles', function ($query) {
+                        $query->where('name', '!=', "super admin");
+                    })
+                    ->latest()
+                    ->paginate($_GET['paginate']);
+            } else{
+                $users = User::where("name", "LIKE", "%" . $_GET["search"] . "%")
+                    ->where("school_id", $_GET['school'])
                     ->with(['roles' => function ($query) {
                         $query->select('name');
-                    }]);
-            })
-            ->with('school')
-            ->latest()
-            ->paginate($_GET['paginate']);
+                    }, 'school'])
+                    ->latest()
+                    ->paginate($_GET['paginate']);
+            }
+        }
+
+        // $users = User::where("name", "LIKE", "%" . $_GET["search"] . "%")
+        //     ->when($_GET["school"] == 1, function ($query) {
+        //         return $query->with(['roles' => function ($query) {
+        //             $query->select('name');
+        //         }]);
+        //     }, function ($query) {
+        //         return $query->where("school_id", $_GET['school'])
+        //             ->with(['roles' => function ($query) {
+        //                 $query->select('name');
+        //             }]);
+        //     })
+        //     ->with('school')
+        //     ->latest()
+        //     ->paginate($_GET['paginate']);
 
         return response()->json($users);
     }
@@ -81,10 +94,12 @@ class UserController extends Controller
         $user = User::find($id);
 
         // remove role dulu
-        if ($request->role == "pengurus osis") {
-            $user->removeRole('anggota');
-        } else {
-            $user->removeRole('pengurus osis');
+        if($request->role){
+            if ($request->role == "pengurus osis") {
+                $user->removeRole('anggota');
+            } else {
+                $user->removeRole('pengurus osis');
+            }
         }
 
         // jika mengirim data profile baru

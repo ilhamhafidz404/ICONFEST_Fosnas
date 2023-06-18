@@ -111,33 +111,57 @@
           <div class="dropdown-menu dropdown-list dropdown-menu-right overflow-hidden">
             <div class="dropdown-header">
               Notifications
-              <div class="float-right">
+              <!-- <div class="float-right">
                 <a href="#">Mark All As Read</a>
-              </div>
+              </div> -->
             </div>
 
             <div class="dropdown-list-content dropdown-list-icons" style="overflow: auto">
-              <div 
-                v-for="notification in notifications" 
-                :key="notification.id"
-                class="dropdown-item cursor-pointer"
-              >
-                <div class="dropdown-item-icon bg-primary text-white">
-                  <i class="fas fa-code"></i>
-                </div>
-                <div class="dropdown-item-desc">
-                  <b>{{ notification.title }}</b>
-                  <p>Nama Tugas : {{ notification.body }}</p>
-                  
-                  <p 
-                    v-if="notification.status == 'pending'" 
-                    class="time text-primary"
+              <div v-if="notifications.length">
+                <div 
+                  v-for="notification in notifications" 
+                  :key="notification.id"
+                  class="dropdown-item cursor-pointer"
+                >
+                  <div 
+                    class="dropdown-item-icon text-white"
+                    :class="{
+                      'bg-primary' : notification.type == 'notification',
+                      'bg-info' : notification.type == 'request'
+                    }"
                   >
-                    {{ diffForHuman(notification.created_at) }}
-                  </p>
-                  <p v-else class="time text-primary">
-                    Sudah Dilihat - {{ diffForHuman(notification.created_at) }}
-                  </p>
+                    <i 
+                      class="fas"
+                      :class="{
+                        'fa-bell' : notification.type == 'notification',
+                        'fa-user' : notification.type == 'request'
+                      }"
+                    ></i>
+                  </div>
+                  <div class="dropdown-item-desc">
+                    <b>{{ notification.title }}</b>
+                    <p>
+                      <span v-if="notification.type == 'notification'">Nama Tugas : </span>
+                      {{ notification.body }}
+                    </p>
+                    
+                    <p 
+                      v-if="notification.status == 'pending'" 
+                      class="time text-primary"
+                    >
+                      {{ diffForHuman(notification.created_at) }}
+                    </p>
+                    <p v-else class="time text-primary">
+                      Sudah Dilihat - {{ diffForHuman(notification.created_at) }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div v-else>
+                <div 
+                  class="dropdown-item cursor-pointer"
+                >
+                  <p>Tidak ada notifikasi</p>
                 </div>
               </div>
             </div>

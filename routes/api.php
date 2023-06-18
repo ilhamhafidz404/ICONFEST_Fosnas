@@ -10,6 +10,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ActivityController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,13 @@ Route::apiResource('activities', ActivityController::class);
 
 Route::get("countUser", [CountController::class, "users"]);
 Route::get("countSchool", [CountController::class, "schools"]);
+
+Route::put("giveschool/{id}", function(Request $request, $id){
+    User::find($id)->update([
+        "school_id" => $request->school
+    ]);
+    return response()->json(["message" => "Berhasil"]);
+});
 
 // Route::get("myData", [OptionContoller::class, 'mydata']);
 

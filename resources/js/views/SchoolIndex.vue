@@ -87,12 +87,22 @@
                               <i class="fas fa-eye"></i>
                             </button>
                             <button
+                              v-if="role == 'super admin'"
                               class="btn btn-danger"
                               data-toggle="tooltip"
                               title="Hapus"
                               @click="deleteSchool(school.id)"
                             >
                               <i class="fas fa-trash"></i>
+                            </button>
+                            <button
+                              v-if="role == 'anggota'"
+                              class="btn btn-info"
+                              data-toggle="tooltip"
+                              title="request keanggotaan"
+                              @click="requestAnggota(school)"
+                            >
+                              Request Keanggotaan
                             </button>
                           </div>
                         </td>
@@ -163,6 +173,11 @@ export default {
   data() {
     return {
       schools: [],
+
+      dataRequest : {
+        id: 0,
+        name: ""
+      },
 
       filterSearch: "",
       loading: true,
@@ -269,6 +284,20 @@ export default {
         }
       });
     },
+    requestAnggota(school){
+      this.loadingSubmit = !this.loadingSubmit;
+
+      this.dataRequest.id = school.id;
+      this.dataRequest.name = this.data.name;
+      axios.post(`http://127.0.0.1:8000/api/notifications`, this.dataRequest).then((res) =>{
+        this.$swal(
+            "Berhasil Meminta Keanggotaan",
+            "Tunggu admin untuk menerima keanggotaan anda",
+            "success"
+          );
+        this.loadingSubmit = !this.loadingSubmit;
+      })
+    }
   },
   mounted() {
     this.getSchools();

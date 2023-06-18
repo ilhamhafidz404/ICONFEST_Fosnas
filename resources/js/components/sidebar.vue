@@ -116,6 +116,12 @@
             <span>Aktifitas</span>
           </router-link>
         </li>
+        <li @click="activate('/freeagents')" :class="{ active: activeEl == '/freeagents' }">
+          <router-link class="nav-link" to="/freeagents">
+            <i class="far fa-id-badge"></i>
+            <span>Free Agent</span>
+          </router-link>
+        </li>
         <!-- <li
           @click="activate('/artikel')"
           :class="{ active: activeEl == '/artikel' }"
@@ -190,6 +196,15 @@
             <span>Home</span>
           </router-link>
         </li>
+        <li
+          @click="activate('/schools')"
+          :class="{ active: activeEl == '/schools' }"
+        >
+          <router-link class="nav-link" to="/schools">
+            <i class="fas fa-school"></i>
+            <span>Sekolah</span>
+          </router-link>
+        </li>
         <!-- <li
           @click="activate('/dashboard')"
           :class="{ active: activeEl == '/dashboard' }"
@@ -202,6 +217,7 @@
         <li
           @click="activate('/users')"
           :class="{ active: activeEl == '/users' }"
+          v-if="school != 1"
         >
           <router-link class="nav-link" to="/users">
             <i class="far fa-user"></i>
@@ -211,6 +227,7 @@
         <li
           @click="activate('/tasks')"
           :class="{ active: activeEl == '/tasks' }"
+          v-if="school != 1"
         >
           <router-link class="nav-link" to="/tasks">
             <i class="fas fa-tasks"></i>
@@ -220,6 +237,7 @@
         <li
           @click="activate('/activities')"
           :class="{ active: activeEl == '/activities' }"
+          v-if="school != 1"
         >
           <router-link class="nav-link" to="/activities">
             <i class="fas fa-chart-line"></i>
@@ -251,7 +269,7 @@
 
 <script>
 export default {
-  props: ["role"],
+  props: ["role", "school"],
   data() {
     return {
       activeEl: window.location.pathname,

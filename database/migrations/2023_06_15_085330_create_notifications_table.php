@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->string("title");
+            $table->enum("type", ["notification", "request"])->default("notification");
             $table->text("body");
             $table->foreignId("user_id");
             $table->enum("status", ["read", "pending"]);
