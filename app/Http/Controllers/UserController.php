@@ -12,31 +12,35 @@ class UserController extends Controller
 
     public function index()
     {
-        if (isset($_GET["school"]) && $_GET["school"] != "") {
-            if (isset($_GET["search"]) && $_GET["search"] != "") {
-                $users = User::where("school_id", $_GET['school'])
-                    ->where("name", "LIKE", "%" . $_GET["search"] . "%")
-                    ->with(['roles', 'school'])
-                    ->latest()
-                    ->paginate(10);
-            } else {
-                $users = User::where("school_id", $_GET['school'])
-                    ->with(['roles', 'school'])
-                    ->latest()
-                    ->paginate(10);
-            }
-        } else {
-            if (isset($_GET["search"]) && $_GET["search"] != "") {
-                $users = User::whereNotIn('name', ['admin'])
-                    ->where("name", $_GET['search'])
-                    ->orWhere("name", "LIKE", "%" . $_GET["search"] . "%")
-                    ->with(['roles', 'school'])
-                    ->latest()
-                    ->paginate(10);
-            } else {
-                $users = User::whereNotIn('name', ['admin'])->with(['roles', 'school'])->paginate(10);
-            }
+        // cek jika data get kosong
+        if($_GET["school"] == 0){
+            return response()->json([
+                "message" => "Tidak memenuhi syarat get data"
+            ]);
         }
+
+
+        // $users = User::where("name", "LIKE", "%" . $_GET["search"] . "%")
+        //     ->with(['roles' => function ($query) {
+        //         $query->select('name');
+        //     }, 'school'])
+        //     ->latest()
+        //     ->paginate($_GET['paginate']);
+
+        $users = User::where("name", "LIKE", "%" . $_GET["search"] . "%")
+            ->when($_GET["school"] == 1, function ($query) {
+                return $query->with(['roles' => function ($query) {
+                    $query->select('name');
+                }]);
+            }, function ($query) {
+                return $query->where("school_id", $_GET['school'])
+                    ->with(['roles' => function ($query) {
+                        $query->select('name');
+                    }]);
+            })
+            ->with('school')
+            ->latest()
+            ->paginate($_GET['paginate']);
 
         return response()->json($users);
     }

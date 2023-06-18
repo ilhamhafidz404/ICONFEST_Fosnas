@@ -19,7 +19,7 @@ class ActivityController extends Controller
                 ->orderBy("updated_at", "DESC")
                 ->get();
         } else{
-            $tasks= Task::whereStatus("success")->latest()->get();
+            $tasks= Task::with(['users', 'school'])->where("status", "!=", "progress")->latest()->get();
         }
 
         return response()->json($tasks);

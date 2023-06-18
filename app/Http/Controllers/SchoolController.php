@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\School;
+use App\Models\{ School, User };
 use Illuminate\Http\Request;
 
 class SchoolController extends Controller
@@ -12,56 +12,45 @@ class SchoolController extends Controller
      */
     public function index()
     {
-        if (isset($_GET['search']) && $_GET != "") {
-            $schools = School::where("name", "!=", "FOSNAS ADMIN")
-                ->where("name", $_GET['search'])
-                ->orWhere("name", "LIKE", "%" . $_GET["search"] . "%")
-                ->latest()
-                ->get();
-        } else {
-            $schools = School::where("name", "!=", "FOSNAS ADMIN")->latest()->get();
-        }
+        $schools = School::where("name", "!=", "FOSNAS ADMIN")
+            ->where("name", "LIKE", "%" . $_GET["search"] . "%")
+            ->latest()
+            ->paginate($_GET['paginate']);
+
         return response()->json($schools);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        School::create([
+            "images" => "",
+            "name" => $request->name,
+            "address" => $request->address,
+            "description" => $request->description,
+            "map" => $request->map
+        ]);
+
+         return response()->json(["message" => "Sekolah berhasil ditambahkan"]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $school = School::find($id);
+
+        return response()->json($school);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        School::find($id)->update([
+            "images" => "",
+            "name" => $request->name,
+            "address" => $request->address,
+            "description" => $request->description,
+            "map" => $request->map
+        ]);
+
+        return response()->json(["message" => "Sekolah berhasil diedit"]);
     }
 
     /**
@@ -70,6 +59,12 @@ class SchoolController extends Controller
     public function destroy(string $id)
     {
         School::whereId($id)->delete();
+
+        // delete semua user dari sekolah tersebut
+        $users = User::whereSchoolId($id)->get();
+        foreach ($users as $user) {
+            $user->delete();
+        }
 
         return response()->json(["message" => "Data Sekolah Berhasil Dihapus"]);
     }

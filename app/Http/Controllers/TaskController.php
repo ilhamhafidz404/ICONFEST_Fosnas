@@ -11,17 +11,49 @@ class TaskController extends Controller
 {
     public function index()
     {
-        if(isset($_GET["user"]) && $_GET["user"] != ""){
-            $tasks = Task::whereHas('users', function ($query) {
-                $query->where('user_id', $_GET["user"]);
-            })->with(['users', 'school'])->whereSchoolId($_GET["school"])->latest()->paginate(10);
-        } else{
-            if(isset($_GET["school"]) && $_GET["school"] != ""){
-                $tasks = Task::with(['users', 'school'])->whereSchoolId($_GET["school"])->latest()->paginate(10);
+        // cek jika data get kosong
+        if($_GET["school"] == 0){
+            return response()->json([
+                "message" => "Tidak memenuhi syarat get data"
+            ]);
+        }
+
+        if($_GET["user"]){
+            if($_GET["school"] == 1){
+                $tasks= Task::with(["users", "school"])
+                    ->whereHas('users', function ($query) {
+                        $query->where('user_id', $_GET["user"]);
+                    })
+                    ->where("name", "LIKE", "%" . $_GET["search"] . "%")
+                    ->latest()
+                    ->paginate($_GET['paginate']);
             } else{
-                $tasks = Task::with(['users', 'school'])->latest()->paginate(10);
+                $tasks= Task::with(["users", "school"])
+                    ->whereHas('users', function ($query) {
+                        $query->where('user_id', $_GET["user"]);
+                    })
+                    ->where("name", "LIKE", "%" . $_GET["search"] . "%")
+                    ->whereSchoolId($_GET["school"])
+                    ->latest()
+                    ->paginate($_GET['paginate']);
+            }
+        } else{
+            if($_GET["school"] == 1){
+                $tasks= Task::with(["users", "school"])
+                    ->where("name", "LIKE", "%" . $_GET["search"] . "%")
+                    ->latest()
+                    ->paginate($_GET['paginate']);
+            } else{
+                $tasks= Task::with(["users", "school"])
+                    ->where("name", "LIKE", "%" . $_GET["search"] . "%")
+                    ->whereSchoolId($_GET["school"])
+                    ->latest()
+                    ->paginate($_GET['paginate']);
             }
         }
+
+        
+
         return response()->json($tasks);
     }
 

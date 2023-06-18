@@ -9,6 +9,8 @@ class School extends Model
 {
     use HasFactory;
 
+    protected $fillable = ["name", "address", "description", "images", "map"];
+
     // public function user()
     // {
     //     return $this->belongsTo(User::class);

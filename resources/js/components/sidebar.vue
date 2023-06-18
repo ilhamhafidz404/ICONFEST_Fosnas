@@ -7,6 +7,7 @@
       <div class="sidebar-brand sidebar-brand-sm">
         <a href="index.html">Fn</a>
       </div>
+
       <!-- untuk super admin -->
       <ul class="sidebar-menu" v-if="role == 'super admin'">
         <li @click="activate('/')" :class="{ active: activeEl == '/' }">
@@ -24,6 +25,15 @@
             <span>Dashboard</span>
           </router-link>
         </li> -->
+        <li
+          @click="activate('/schools')"
+          :class="{ active: activeEl == '/schools' }"
+        >
+          <router-link class="nav-link" to="/schools">
+            <i class="fas fa-school"></i>
+            <span>Sekolah</span>
+          </router-link>
+        </li>
         <li
           @click="activate('/users')"
           :class="{ active: activeEl == '/users' }"
@@ -52,15 +62,6 @@
           </router-link>
         </li>
         <!-- <li
-          @click="activate('/schools')"
-          :class="{ active: activeEl == '/schools' }"
-        >
-          <router-link class="nav-link" to="/schools">
-            <i class="fas fa-school"></i>
-            <span>Sekolah</span>
-          </router-link>
-        </li> -->
-        <!-- <li
           @click="activate('/artikel')"
           :class="{ active: activeEl == '/artikel' }"
         >
@@ -70,9 +71,6 @@
           </router-link>
         </li> -->
       </ul>
-
-
-
 
       <!-- Untuk admin sekolah -->
       <ul class="sidebar-menu" v-else-if="role == 'admin sekolah'">
@@ -128,8 +126,6 @@
           </router-link>
         </li> -->
       </ul>
-
-
 
       <!-- Untuk pengurus osis -->
       <ul class="sidebar-menu" v-else-if="role == 'pengurus osis'">

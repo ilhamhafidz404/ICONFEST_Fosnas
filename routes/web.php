@@ -28,6 +28,8 @@ Route::middleware(['auth'])->group(function () {
 
     // exports
     Route::get("/export/user", [ExportController::class, "user"]);
+    Route::get("/export/task", [ExportController::class, "task"]);
+    Route::get("/export/school", [ExportController::class, "school"]);
 
     // Route::view('/{any}', 'app')->where('any', '.*');
     Route::get('/{any}', function () {

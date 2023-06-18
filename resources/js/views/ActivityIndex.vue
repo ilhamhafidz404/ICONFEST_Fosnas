@@ -2,7 +2,7 @@
   <div class="main-content">
     <section class="section">
       <div class="section-header">
-        <h1>Activities</h1>
+        <h1>Aktifitas</h1>
       </div>
       <div class="section-body">
         <div v-if="!loading" class="row">
@@ -53,13 +53,11 @@
                       :title="user.name"
                     />
                   </div>
+                  <p v-if="role == 'super admin'" class="text-primary">{{ activity.school.name }}</p>
                 </div>
               </div>
             </div>
             <div v-else class="card">
-              <div class="card-header">
-                <h4>Empty Data</h4>
-              </div>
               <div class="card-body">
                 <div class="empty-state" data-height="400">
                   <div class="empty-state-icon">
@@ -67,10 +65,9 @@
                   </div>
                   <h2>Tidak ada data aktifitas yang ditemukan</h2>
                   <p class="lead">
-                    Sorry we can't find any data, to get rid of this message, make at least 1 entry.
+                    Silahkan selesaikan 1 program kerja untuk record activity anda!
                   </p>
-                  <a href="#" class="btn btn-primary mt-4">Create new One</a>
-                  <a href="#" class="mt-4 bb">Need Help?</a>
+                  <router-link to="/tasks" class="btn btn-primary mt-4">Lihat Program Kerja</router-link>
                 </div>
               </div>
             </div>
@@ -104,7 +101,6 @@ export default {
     },
   },
   mounted(){
-    // get activities
     const urlRequest =
       this.role == "super admin"
         ? "http://127.0.0.1:8000/api/activities"

@@ -99,115 +99,12 @@
         </div>
       </form>
       <ul class="navbar-nav navbar-right">
-        <!-- <li class="dropdown dropdown-list-toggle">
-          <a
-            href="#"
-            data-toggle="dropdown"
-            class="nav-link nav-link-lg message-toggle beep"
-            ><i class="far fa-envelope"></i
-          ></a>
-          <div class="dropdown-menu dropdown-list dropdown-menu-right">
-            <div class="dropdown-header">
-              Messages
-              <div class="float-right">
-                <a href="#">Mark All As Read</a>
-              </div>
-            </div>
-            <div class="dropdown-list-content dropdown-list-message">
-              <a href="#" class="dropdown-item dropdown-item-unread">
-                <div class="dropdown-item-avatar">
-                  <img
-                    alt="image"
-                    src="assets/img/avatar/avatar-1.png"
-                    class="rounded-circle"
-                  />
-                  <div class="is-online"></div>
-                </div>
-                <div class="dropdown-item-desc">
-                  <b>Kusnaedi</b>
-                  <p>Hello, Bro!</p>
-                  <div class="time">10 Hours Ago</div>
-                </div>
-              </a>
-              <a href="#" class="dropdown-item dropdown-item-unread">
-                <div class="dropdown-item-avatar">
-                  <img
-                    alt="image"
-                    src="assets/img/avatar/avatar-2.png"
-                    class="rounded-circle"
-                  />
-                </div>
-                <div class="dropdown-item-desc">
-                  <b>Dedik Sugiharto</b>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit
-                  </p>
-                  <div class="time">12 Hours Ago</div>
-                </div>
-              </a>
-              <a href="#" class="dropdown-item dropdown-item-unread">
-                <div class="dropdown-item-avatar">
-                  <img
-                    alt="image"
-                    src="assets/img/avatar/avatar-3.png"
-                    class="rounded-circle"
-                  />
-                  <div class="is-online"></div>
-                </div>
-                <div class="dropdown-item-desc">
-                  <b>Agung Ardiansyah</b>
-                  <p>
-                    Sunt in culpa qui officia deserunt mollit anim id est
-                    laborum.
-                  </p>
-                  <div class="time">12 Hours Ago</div>
-                </div>
-              </a>
-              <a href="#" class="dropdown-item">
-                <div class="dropdown-item-avatar">
-                  <img
-                    alt="image"
-                    src="assets/img/avatar/avatar-4.png"
-                    class="rounded-circle"
-                  />
-                </div>
-                <div class="dropdown-item-desc">
-                  <b>Ardian Rahardiansyah</b>
-                  <p>
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    ess
-                  </p>
-                  <div class="time">16 Hours Ago</div>
-                </div>
-              </a>
-              <a href="#" class="dropdown-item">
-                <div class="dropdown-item-avatar">
-                  <img
-                    alt="image"
-                    src="assets/img/avatar/avatar-5.png"
-                    class="rounded-circle"
-                  />
-                </div>
-                <div class="dropdown-item-desc">
-                  <b>Alfa Zulkarnain</b>
-                  <p>
-                    Exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                  </p>
-                  <div class="time">Yesterday</div>
-                </div>
-              </a>
-            </div>
-            <div class="dropdown-footer text-center">
-              <a href="#">View All <i class="fas fa-chevron-right"></i></a>
-            </div>
-          </div>
-        </li> -->
         <li class="dropdown dropdown-list-toggle">
           <a
             href="#"
             data-toggle="dropdown"
             class="nav-link notification-toggle nav-link-lg"
-            :class="{ 'beep' : notificationCountNow != notificationCountOld }"
+            :class="{ 'beep' : beep }"
             @click="readNotifications"
             ><i class="far fa-bell"></i
           ></a>
@@ -295,11 +192,7 @@ export default {
   data(){
     return{
       notifications: [],
-      notificatioId: 0,
-
-      notificationCountNow: 0,
-      notificationCountOld: 0,
-      firstHitGetNotification: true,
+      beep: false,
     }
   },
   methods : {
@@ -312,33 +205,19 @@ export default {
       axios.get(`http://127.0.0.1:8000/api/notifications?user_id=${this.data.id}`)
         .then((res) => {
           this.notifications = res.data;
-
-          // jika awal hit api / kondisi awal notifikasi
-          if(this.firstHitGetNotification){
-            this.firstHitGetNotification = false;
-            this.notificationCountOld = res.data.length;
-          }
-
-          // ketika ada perubahan tidak cocoknya old dan new
-          if(this.notificationCountOld != this.notificationCountNow){
-
-          }
-          
-          this.notificationCountNow = res.data.length;
+          this.beep = res.data.find(item => item.status === "pending") !== undefined;
         })
         .catch((error) => {
           console.log(error);
         });
     },
     readNotifications(){
-      this.notificationCountOld = this.notificationCountNow;
       axios.put(`http://127.0.0.1:8000/api/notifications/${this.data.id}?user_id=${this.data.id}`, { status: "read" });
     },
   },
   mounted(){
     this.getNotifications();
-    this.notificationCountOld = this.notifications.length;
-    setInterval(this.getNotifications, 10000); // Kirim permintaan setiap 5 detik
+    setInterval(this.getNotifications, 20000); // Kirim permintaan setiap 20 detik
   }
 };
 </script>

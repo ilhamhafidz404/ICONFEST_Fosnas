@@ -2,7 +2,7 @@
   <div class="main-content">
     <section class="section">
       <div class="section-header">
-        <h1>User</h1>
+        <h1>Sekolah</h1>
         <div class="section-header-breadcrumb">
           <div class="flex align-items-center justify-content-center">
             <div class="mr-3">
@@ -31,90 +31,66 @@
                 </div>
               </form>
             </div>
-            <div>
+            <div v-if="role == 'super admin'">
               <button
-                v-if="role != 'anggota' && role != 'pengurus osis'"
                 class="btn btn-primary"
                 data-bs-toggle="modal"
-                data-bs-target="#userModalForm"
+                data-bs-target="#schoolModalForm"
               >
-                Tambah Anggota
+                Tambah Sekolah
               </button>
-              <button class="btn btn-success ml-3" @click="exportUser">
+              <button 
+                class="btn btn-success ml-3" 
+                @click="exportSchool"
+              >
                 Export Excel
               </button>
             </div>
           </div>
         </div>
       </div>
+
+
       <div v-if="!loadingSubmit" class="section-body">
         <div class="row">
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h4 v-if="role == 'super admin'">Data Anggota FOSNAS</h4>
-                <h4 v-else>Data Anggota OSIS {{ data.school.name }}</h4>
+                <h4>Data Sekolah Anggota FOSNAS</h4>
               </div>
               <div class="card-body p-0">
                 <div class="table-responsive">
                   <table class="table table-striped">
                     <tr>
-                      <th>#</th>
-                      <th>Nama Anggota</th>
-                      <th v-if="role == 'super admin'">Asal Sekolah</th>
-                      <th>Role</th>
+                      <th>ID</th>
+                      <th>Nama Sekolah</th>
+                      <th>Alamat</th>
+                      <th>Deskripsi</th>
                       <th>Opsi</th>
                     </tr>
-                    <tbody v-if="!loading && users.length">
-                      <tr v-for="(user, index) in users" :key="user.id">
-                        <td>{{ index + 1 }}</td>
-                        <td>{{ user.name }}</td>
-                        <td v-if="role == 'super admin'">
-                          {{ user.school.name }}
-                        </td>
+                    <tbody v-if="!loading && schools.length">
+                      <tr v-for="school in schools" :key="school.id">
+                        <td>FS-{{ school.id }}</td>
+                        <td>{{ school.name }}</td>
+                        <td>{{ school.address }}</td>
                         <td>
-                          <span
-                            class="badge"
-                            :class="{
-                              'badge-success':
-                                user.roles[0].name == 'admin sekolah',
-                              'badge-warning':
-                                user.roles[0].name == 'pengurus osis',
-                              'badge-danger': user.roles[0].name == 'anggota',
-                            }"
-                          >
-                            {{ user.roles[0].name }}
-                          </span>
+                          {{ school.description }}
                         </td>
                         <td>
                           <div>
                             <button
-                              class="btn btn-primary"
+                              class="btn btn-primary mr-2"
+                              data-toggle="tooltip"
                               title="Detail"
-                              data-bs-toggle="modal"
-                              @click="getUser(user, '#userModalDetail')"
+                              @click="getSchool(school, '#schoolModalDetail')"
                             >
                               <i class="fas fa-eye"></i>
                             </button>
                             <button
-                              v-if="
-                                role != 'anggota' && role != 'pengurus osis'
-                              "
-                              class="btn btn-info mx-2"
-                              data-toggle="tooltip"
-                              title="Edit"
-                              @click="getUser(user, '#userModalForm')"
-                            >
-                              <i class="fas fa-pen"></i>
-                            </button>
-                            <button
-                              v-if="
-                                role != 'anggota' && role != 'pengurus osis'
-                              "
                               class="btn btn-danger"
                               data-toggle="tooltip"
                               title="Hapus"
-                              @click="deleteUser(user.id)"
+                              @click="deleteSchool(school.id)"
                             >
                               <i class="fas fa-trash"></i>
                             </button>
@@ -140,6 +116,12 @@
               </div>
             </div>
           </div>
+
+          <Pagination 
+            ref="pagination"
+            @setLoading="setLoading"
+            @getNewPageData="getTasks"
+          ></Pagination>
         </div>
       </div>
       <div v-else class="text-center h-[500px]">
@@ -149,48 +131,38 @@
       </div>
     </section>
 
-    <Pagination
-      ref="pagination"
-      @setLoading="setLoading"
-      @getNewPageData="getUsers"
-    ></Pagination>
-
-    <!-- Modal -->
-    <ModalFormUser
-      ref="modalFormUser"
-      :data="data"
+    <ModalFormSchool
       :role="role"
-      @getUsers="getUsers"
+      :data="data"
+      @getSchools="getSchools"
+      @setLoading="setLoading"
       @setLoadingSubmit="setLoadingSubmit"
-      @setLoading="setLoading"
-    ></ModalFormUser>
-    <!--  -->
-    <ModalDetailUser
-      ref="modalDetailUser"
-      :data="data"
+    ></ModalFormSchool>
+    <ModalDetailSchool
+      ref="modalSchoolDetail"
       :role="role"
-      @getUser="getUser"
-    ></ModalDetailUser>
+      :data="data"
+    ></ModalDetailSchool>
   </div>
 </template>
+
 <script>
 import axios from "axios";
-import { UserGet } from "./../actions/UserGet.js";
+import { SchoolGet } from "./../actions/SchoolGet.js";
 //
-import ModalFormUser from "./../components/ModalFormUser.vue";
-import ModalDetailUser from "./../components/ModalDetailUser.vue";
 import Pagination from "./../components/Pagination.vue";
+import ModalFormSchool from "./../components/ModalFormSchool.vue";
+import ModalDetailSchool from "./../components/ModalDetailSchool.vue";
 export default {
   props: ["role", "data"],
-  components: {
-    ModalFormUser,
-    ModalDetailUser,
+  components : {
     Pagination,
+    ModalFormSchool,
+    ModalDetailSchool
   },
   data() {
     return {
-      // untuk get data
-      users: [],
+      schools: [],
 
       filterSearch: "",
       loading: true,
@@ -199,84 +171,63 @@ export default {
     };
   },
   methods: {
-    setLoadingSubmit() {
+    setLoadingSubmit(){
       this.loadingSubmit = !this.loadingSubmit;
     },
-    setLoading() {
+    setLoading(){
       this.loading = !this.loading;
     },
-    async getUsers(page = 1) {
+    getSchool(data, modalTarget){
+      // const modalFormTaskComp = this.$refs.modalFormTask;
+      const modalSchoolDetail = this.$refs.modalSchoolDetail;
+
+      // modalFormTaskComp.task.id = data.id; 
+      // modalFormTaskComp.task.name = data.name;
+      // modalFormTaskComp.task.description = data.description;
+      // modalFormTaskComp.task.users = data.users;
+      // modalFormTaskComp.task.status = data.status;
+
+      modalSchoolDetail.school.id = data.id; 
+      modalSchoolDetail.school.name = data.name;
+      modalSchoolDetail.school.description = data.description;
+      modalSchoolDetail.school.map = data.map;
+      modalSchoolDetail.school.address = data.address;
+
+      $(modalTarget).modal("show");
+    },
+    async getSchools(page = 1){
       try {
-        let result = await UserGet(
-          this.data.school_id,
-          this.filterSearch,
-          10,
-          page
-        );
-        this.users = result.data.data;
+        let result = await SchoolGet(this.filterSearch, 10, page);
+        this.schools = result.data.data;
 
         const pagination = this.$refs.pagination;
+        pagination.links = result.data.links;
 
         this.loading = false;
 
-        pagination.links = result.data.links;
-
-        if (this.filterSearch != "") {
+        if(this.filterSearch != ""){
           this.onSearch = true;
-        } else {
+        } else{
           this.onSearch = false;
         }
       } catch (error) {
         console.error(error);
       }
     },
-    getUser(data, modalTarget) {
-      const defaultAvatars = [
-        "avatar-1.png",
-        "avatar-2.png",
-        "avatar-3.png",
-        "avatar-4.png",
-        "avatar-5.png",
-      ];
-
-      const { modalDetailUser, modalFormUser } = this.$refs;
-
-      const { id, name, email, roles, profile } = data;
-      const role = data.role != "Pilih Role" ? roles[0].name : "Pilih Role";
-
-      modalDetailUser.user = { id, name, email, role, profile };
-      modalFormUser.user = { id, name, email, role, profile };
-
-      if (data.role != "Pilih Role") {
-        const imagePath = defaultAvatars.includes(profile)
-          ? `/images/profiles/default/${profile}`
-          : `/images/profiles/${profile}`;
-
-        modalDetailUser.previewImage = imagePath;
-        modalFormUser.previewImage = imagePath;
-      } else {
-        modalDetailUser.previewImage = "";
-        modalFormUser.previewImage = "";
-      }
-
-      $(modalTarget).modal("show");
-    },
-
     filteredSearch() {
       this.loading = true;
-      this.getUsers();
+      this.getSchools();
     },
     resetSearch() {
       this.loading = true;
       this.filterSearch = "";
-
-      this.getUsers();
+      this.getSchools();
     },
-    exportUser() {
+    exportSchool() {
       this.$swal({
-        title: "Konfirmasi Eksport Data User",
+        title: "Konfirmasi Eksport Data Sekolah",
         icon: "question",
-        text: "Apakah anda yakin ingin mengeksport data user",
+        text: "Apakah anda yakin ingin mengeksport data Sekolah",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
@@ -284,16 +235,16 @@ export default {
         cancelButtonText: "Batalkan",
       }).then((res) => {
         if (res.isConfirmed) {
-          window.open("http://127.0.0.1:8000/export/user", "_blank");
+          window.open("http://127.0.0.1:8000/export/school", "_blank");
           this.$swal(
             "Berhasil Meng-eksport",
-            "Data user telah berhasil dieksport",
+            "Data sekolah telah berhasil dieksport",
             "success"
           );
         }
       });
     },
-    deleteUser(id) {
+    deleteSchool(id) {      
       this.$swal({
         title: "Apakah kamu yakin?",
         icon: "question",
@@ -305,20 +256,22 @@ export default {
         cancelButtonText: "Batalkan",
       }).then((result) => {
         if (result.value) {
-          axios.delete("http://127.0.0.1:8000/api/users/" + id).then((res) => {
-            this.getUsers();
+          this.loadingSubmit = true;
+          axios.delete("http://127.0.0.1:8000/api/schools/" + id).then(() => {
+            this.loadingSubmit = false;
+            this.getSchools();
             this.$swal(
               "Berhasil Dihapus",
-              "Data user telah berhasil dihapus",
+              "Data Sekolah telah berhasil dihapus",
               "success"
-            );
+            );  
           });
         }
       });
     },
   },
   mounted() {
-    this.getUsers();
+    this.getSchools();
   },
 };
 </script>
@@ -340,5 +293,8 @@ export default {
   100% {
     transform: rotate(360deg);
   }
+}
+select[multiple] option:checked {
+  background-color: yellow;
 }
 </style>

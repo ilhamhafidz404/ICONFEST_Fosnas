@@ -3,9 +3,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import Dashboard from "./views/Dashboard.vue";
 import Home from "./views/Home.vue";
 
-// school
-import SchoolIndex from "./views/school/Index.vue";
-
 // admin
 import DashboardAdmin from "./views/Admin/DashboardAdmin.vue";
 
@@ -28,12 +25,10 @@ import ArtikelIndex from "./views/ArtikelIndex.vue";
 import ShowArtikel from "./views/ShowArtikel.vue";
 import TaskIndex from "./views/TaskIndex.vue";
 import ActivityIndex from "./views/ActivityIndex.vue";
+import SchoolIndex from "./views/SchoolIndex.vue";
 
 const routes = [
     { path: "/", component: Home },
-
-    // school
-    { path: "/schools", component: SchoolIndex },
 
     // route for all
     { path: "/artikel", component: ArtikelIndex },
@@ -41,6 +36,7 @@ const routes = [
     { path: "/users", component: UserIndex },
     { path: "/tasks", component: TaskIndex },
     { path: "/activities", component: ActivityIndex },
+    { path: "/schools", component: SchoolIndex },
 
     // url pengurus
     { path: "/pengurus/dashboard", component: DahsboardPengurus },
