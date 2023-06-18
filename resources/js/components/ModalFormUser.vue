@@ -130,7 +130,11 @@
               </div>
               <div v-if="role == 'super admin' && user.id == 0" class="form-group">
                 <label>Sekolah</label>
-                <select class="custom-select" v-model="user.school_id">
+                <select 
+                  class="custom-select" 
+                  v-model="user.school_id"
+                  :class="{ 'is-invalid': errors.school }"
+                >
                   <option selected value="1" hidden>Pilih Sekolah</option>
                   <option
                     v-for="school in schools"
@@ -140,6 +144,9 @@
                     {{ school.name }}
                   </option>
                 </select>
+                <div class="invalid-feedback">
+                  {{ errors.school }}
+                </div>
               </div>
             </form>
           </div>
@@ -309,10 +316,14 @@ export default {
 	        this.errors.role = "";
 	      }
 
-	      if (
-	        this.user.email != "" &&
-	        !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.user.email)
-	      ) {
+        if (this.user.school_id == this.data.school_id) {
+          this.errors.school = "Pilih Sekolah Terlebih dahulu";
+          this.errors.countError += 1;
+        } else {
+          this.errors.school = "";
+        }
+
+	      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.user.email)) {
 	        this.errors.email = "masukkan format email dengan benar";
 	        this.errors.countError += 1;
 	      } else {

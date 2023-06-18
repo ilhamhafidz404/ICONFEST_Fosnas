@@ -123,25 +123,52 @@ export default {
   	},
   	methods: {
   		handleSubmit(){
-  			this.$emit("setLoadingSubmit")
-  			$("#schoolModalForm").modal("hide");
-  			axios.post("http://127.0.0.1:8000/api/schools", this.school).then((res) =>{
-  				this.$emit("setLoadingSubmit")
-           	this.$emit("setLoading")
+        this.errors.countError = 0;
+        this.checkError();
 
-           	this.$emit('getSchools')
+  			if(!this.errors.countError){
+          this.$emit("setLoadingSubmit")
+          $("#schoolModalForm").modal("hide");
+          axios.post("http://127.0.0.1:8000/api/schools", this.school).then((res) =>{
+            this.$emit("setLoadingSubmit")
+              this.$emit("setLoading")
 
-           this.$swal(
-             "Berhasil Menambah Sekolah",
-             "Data sekolah telah berhasil ditambah",
-             "success"
-           );
+              this.$emit('getSchools')
 
-           this.resetSchoolDataAndErrors();
-  			}).catch((error) =>{
-  				console.log(error)
-  			})
+             this.$swal(
+               "Berhasil Menambah Sekolah",
+               "Data sekolah telah berhasil ditambah",
+               "success"
+             );
+
+             this.resetSchoolDataAndErrors();
+          }).catch((error) =>{
+            console.log(error)
+          })
+        }
   		},
+      checkError() {
+        if (this.school.name == "") {
+          this.errors.name = "nama harus diisi";
+          this.errors.countError += 1;
+        } else {
+          this.errors.name = "";
+        }
+
+        if (this.school.address == "") {
+          this.errors.address = "address harus diisi";
+          this.errors.countError += 1;
+        } else {
+          this.errors.address = "";
+        }
+
+        if (this.school.description == "") {
+          this.errors.description = "description harus diisi";
+          this.errors.countError += 1;
+        } else {
+          this.errors.description = "";
+        }
+      },
       resetSchoolDataAndErrors() {
         this.school = {
           id: 0,

@@ -229,14 +229,19 @@ export default {
   },
   methods : {
     handleSubmit(){
-      $("#schoolModalForm").modal("hide");
-      axios.put(`http://127.0.0.1:8000/api/schools/${this.data.school.id}`, this.school).then((res) => {
-        this.$swal(
-           "Berhasil Edit Data Sekolah",
-           "Data sekolah telah berhasil diedit",
-           "success"
-         );
-      });
+      this.errors.countError= 0;
+      this.checkError();
+
+      if(!this.errors.countError){
+        $("#schoolModalForm").modal("hide");
+        axios.put(`http://127.0.0.1:8000/api/schools/${this.data.school.id}`, this.school).then((res) => {
+          this.$swal(
+             "Berhasil Edit Data Sekolah",
+             "Data sekolah telah berhasil diedit",
+             "success"
+           );
+        });
+      }
     },
     getMySchool(){
       axios.get(`http://127.0.0.1:8000/api/schools/${this.data.school.id}`).then((res) =>{
@@ -249,6 +254,28 @@ export default {
         this.school.created_at = res.data.created_at;
       })
     },
+    checkError() {
+        if (this.school.name == "") {
+          this.errors.name = "nama harus diisi";
+          this.errors.countError += 1;
+        } else {
+          this.errors.name = "";
+        }
+
+        if (this.school.address == "") {
+          this.errors.address = "address harus diisi";
+          this.errors.countError += 1;
+        } else {
+          this.errors.address = "";
+        }
+
+        if (this.school.description == "") {
+          this.errors.description = "description harus diisi";
+          this.errors.countError += 1;
+        } else {
+          this.errors.description = "";
+        }
+      },
     resetSchoolDataAndErrors() {
         this.school = {
           id: 0,
