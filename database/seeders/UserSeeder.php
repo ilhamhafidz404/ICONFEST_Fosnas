@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
             "name" => "admin scada",
             "profile" => "avatar-3.png",
             "password" => bcrypt("adminscada"),
-            "school_id" => 4,
+            "school_id" => 3,
             "email" => "adminscada@gmail.com"
         ])->assignRole('admin sekolah');
 
@@ -52,7 +52,7 @@ class UserSeeder extends Seeder
             "name" => "pengurus scada",
             "profile" => "avatar-5.png",
             "password" => bcrypt("pengurusscada"),
-            "school_id" => 4,
+            "school_id" => 3,
             "email" => "pengurusscada@gmail.com"
         ])->assignRole('pengurus osis');
 
@@ -69,24 +69,8 @@ class UserSeeder extends Seeder
             "name" => "Ira",
             "profile" => "avatar-2.png",
             "password" => bcrypt("ira123"),
-            "school_id" => 4,
-            "email" => "irairwanti@gmail.com"
-        ])->assignRole('anggota');
-
-        User::create([
-            "name" => "Hafidz",
-            "profile" => "avatar-3.png",
-            "password" => bcrypt("apid123"),
             "school_id" => 3,
-            "email" => "imamhafidz@gmail.com"
-        ])->assignRole('anggota');
-
-        User::create([
-            "name" => "Septi",
-            "profile" => "avatar-4.png",
-            "password" => bcrypt("septi123"),
-            "school_id" => 2,
-            "email" => "sepiomel@gmail.com"
+            "email" => "irairwanti@gmail.com"
         ])->assignRole('anggota');
     }
 }

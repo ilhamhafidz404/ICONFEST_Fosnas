@@ -17,6 +17,8 @@ class DashboardController extends Controller
                 ->get();
 
             $tasksOnProgress = Task::whereStatus("progress")
+                ->limit(7)
+                ->with("school")
                 ->latest()
                 ->get();
         } else {
@@ -30,6 +32,7 @@ class DashboardController extends Controller
             $tasksOnProgress = Task::whereSchoolId($_GET["school"])
                 ->whereStatus("progress")
                 ->with("users")
+                ->limit(7)
                 ->latest()
                 ->get();
         }

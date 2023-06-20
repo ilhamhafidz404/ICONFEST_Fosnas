@@ -104,11 +104,13 @@
             href="#"
             data-toggle="dropdown"
             class="nav-link notification-toggle nav-link-lg"
-            :class="{ 'beep' : beep }"
+            :class="{ beep: beep }"
             @click="readNotifications"
             ><i class="far fa-bell"></i
           ></a>
-          <div class="dropdown-menu dropdown-list dropdown-menu-right overflow-hidden">
+          <div
+            class="dropdown-menu dropdown-list dropdown-menu-right overflow-hidden"
+          >
             <div class="dropdown-header">
               Notifications
               <!-- <div class="float-right">
@@ -116,51 +118,55 @@
               </div> -->
             </div>
 
-            <div class="dropdown-list-content dropdown-list-icons" style="overflow: auto">
+            <div
+              class="dropdown-list-content dropdown-list-icons"
+              style="overflow: auto"
+            >
               <div v-if="notifications.length">
-                <div 
-                  v-for="notification in notifications" 
+                <div
+                  v-for="notification in notifications"
                   :key="notification.id"
                   class="dropdown-item cursor-pointer"
                 >
-                  <div 
+                  <div
                     class="dropdown-item-icon text-white"
                     :class="{
-                      'bg-primary' : notification.type == 'notification',
-                      'bg-info' : notification.type == 'request'
+                      'bg-primary': notification.type == 'notification',
+                      'bg-info': notification.type == 'request',
                     }"
                   >
-                    <i 
+                    <i
                       class="fas"
                       :class="{
-                        'fa-bell' : notification.type == 'notification',
-                        'fa-user' : notification.type == 'request'
+                        'fa-bell': notification.type == 'notification',
+                        'fa-user': notification.type == 'request',
                       }"
                     ></i>
                   </div>
                   <div class="dropdown-item-desc">
-                    <b>{{ notification.title }}</b>
-                    <p>
-                      <span v-if="notification.type == 'notification'">Nama Tugas : </span>
+                    <b class="font-bold">{{ notification.title }}</b>
+                    <p class="leading-5 mt-[5px]">
+                      <span v-if="notification.type == 'notification'"
+                        >Nama Tugas :
+                      </span>
                       {{ notification.body }}
                     </p>
-                    
-                    <p 
-                      v-if="notification.status == 'pending'" 
+
+                    <p
+                      v-if="notification.status == 'pending'"
                       class="time text-primary"
                     >
                       {{ diffForHuman(notification.created_at) }}
                     </p>
                     <p v-else class="time text-primary">
-                      Sudah Dilihat - {{ diffForHuman(notification.created_at) }}
+                      Sudah Dilihat -
+                      {{ diffForHuman(notification.created_at) }}
                     </p>
                   </div>
                 </div>
               </div>
               <div v-else>
-                <div 
-                  class="dropdown-item cursor-pointer"
-                >
+                <div class="dropdown-item cursor-pointer">
                   <p>Tidak ada notifikasi</p>
                 </div>
               </div>
@@ -183,7 +189,7 @@
             </div>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <div class="dropdown-title">Logged in 5 min ago</div>
+            <!-- <div class="dropdown-title">Logged in 5 min ago</div>
             <a href="features-profile.html" class="dropdown-item has-icon">
               <i class="far fa-user"></i> Profile
             </a>
@@ -192,7 +198,7 @@
             </a>
             <a href="features-settings.html" class="dropdown-item has-icon">
               <i class="fas fa-cog"></i> Settings
-            </a>
+            </a> -->
             <div class="dropdown-divider"></div>
             <a
               href="http://127.0.0.1:8000/confirm-logout"
@@ -213,41 +219,46 @@ import axios from "axios";
 import moment from "moment";
 export default {
   props: ["data"],
-  data(){
-    return{
+  data() {
+    return {
       notifications: [],
       beep: false,
-    }
+    };
   },
-  methods : {
+  methods: {
     diffForHuman(string) {
       const date = moment(string);
       return date.fromNow();
     },
     //
     getNotifications() {
-      axios.get(`http://127.0.0.1:8000/api/notifications?user_id=${this.data.id}`)
+      axios
+        .get(`http://127.0.0.1:8000/api/notifications?user_id=${this.data.id}`)
         .then((res) => {
           this.notifications = res.data;
-          this.beep = res.data.find(item => item.status === "pending") !== undefined;
+          this.beep =
+            res.data.find((item) => item.status === "pending") !== undefined;
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    readNotifications(){
-      axios.put(`http://127.0.0.1:8000/api/notifications/${this.data.id}?user_id=${this.data.id}`, { status: "read" });
+    readNotifications() {
+      axios.put(
+        `http://127.0.0.1:8000/api/notifications/${this.data.id}?user_id=${this.data.id}`,
+        { status: "read" }
+      );
     },
   },
-  mounted(){
+  mounted() {
     this.getNotifications();
     setInterval(this.getNotifications, 20000); // Kirim permintaan setiap 20 detik
-  }
+  },
 };
 </script>
 
 <style>
-div.dropdown-list-content.dropdown-list-icons::after{
+div.dropdown-list-content.dropdown-list-icons::after {
   display: none !important;
 }
 </style>

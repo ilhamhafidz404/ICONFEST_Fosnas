@@ -4,7 +4,11 @@
       <div class="section-header">
         <h1>Dashboard</h1>
         <div class="section-header-breadcrumb">
-          <button v-if="data.school_id != 1 || role == 'super admin'" @click="showGeneralToggle" class="btn btn-primary btn-sm">
+          <button
+            v-if="data.school_id != 1 || role == 'super admin'"
+            @click="showGeneralToggle"
+            class="btn btn-primary btn-sm"
+          >
             <span v-if="!showGeneral">Tampilkan</span>
             <span v-else>Sembunyikan</span>
             General
@@ -71,7 +75,12 @@
           </div>
         </section>
 
-        <h2 v-if="showGeneral && data.school_id != 1 || role == 'super admin'" class="section-title">School Statistic</h2>
+        <h2
+          v-if="(showGeneral && data.school_id != 1) || role == 'super admin'"
+          class="section-title"
+        >
+          School Statistic
+        </h2>
         <div v-if="data.school_id != 1 || role == 'super admin'" class="row">
           <div class="col-8">
             <div class="row">
@@ -80,7 +89,10 @@
                   <div class="card-stats">
                     <div class="card-stats-title">
                       User Statistics -
-                      <div v-if="role == 'super admin'" class="dropdown d-inline">
+                      <div
+                        v-if="role == 'super admin'"
+                        class="dropdown d-inline"
+                      >
                         <a
                           class="font-weight-600 dropdown-toggle"
                           data-toggle="dropdown"
@@ -161,7 +173,10 @@
                   <div class="card-stats">
                     <div class="card-stats-title">
                       Proker Statistics -
-                      <div v-if="role == 'super admin'" class="dropdown d-inline">
+                      <div
+                        v-if="role == 'super admin'"
+                        class="dropdown d-inline"
+                      >
                         <a
                           class="font-weight-600 dropdown-toggle"
                           data-toggle="dropdown"
@@ -174,7 +189,9 @@
                           <li class="dropdown-title">Pilih Sekolah</li>
                           <li
                             class="dropdown-item text-sm lowercase cursor-pointer"
-                            @click="changeSelectedFilterSchoolTask('All Member', 0)"
+                            @click="
+                              changeSelectedFilterSchoolTask('All Member', 0)
+                            "
                             :class="{
                               'bg-indigo-500 hover:bg-indigo-500 text-white':
                                 selectedFilterSchoolNameTask == 'All Member',
@@ -278,7 +295,7 @@
                     </div>
                     <div class="ticket-info mt-2">
                       <div>
-                        <span class="flex">
+                        <span v-if="role != 'super admin'" class="flex">
                           <img
                             v-for="user in task.users"
                             :key="user.id"
@@ -298,6 +315,9 @@
                             data-placement="top"
                             :title="user.name"
                           />
+                        </span>
+                        <span v-else>
+                          {{ task.school.name }}
                         </span>
                       </div>
                       <div class="bullet"></div>
@@ -360,7 +380,6 @@ export default {
       selectedFilterSchoolNameTask: "All Member",
       selectedFilterSchoolIdTask: 0,
 
-
       showGeneral: true,
       loading: true,
     };
@@ -370,41 +389,37 @@ export default {
       const date = moment(string);
       return date.fromNow();
     },
-    showGeneralToggle(){
-      this.showGeneral = !this.showGeneral
+    showGeneralToggle() {
+      this.showGeneral = !this.showGeneral;
     },
 
-    changeSelectedFilterSchoolTask(selectedName, selectedId){
+    changeSelectedFilterSchoolTask(selectedName, selectedId) {
       this.selectedFilterSchoolNameTask = selectedName;
       this.selectedFilterSchoolIdTask = selectedId;
 
       // get count user by id
       if (selectedId != 0) {
-
         axios
-      .get(
-        `http://127.0.0.1:8000/api/countTask?schoolId=${selectedId}`
-      )
-      .then((res) => {
-        this.taskCount = res.data.taskCount;
-        this.successCount = res.data.successCount;
-        this.progressCount = res.data.progressCount;
-        this.cancelCount = res.data.cancelCount;
-      });
+          .get(`http://127.0.0.1:8000/api/countTask?schoolId=${selectedId}`)
+          .then((res) => {
+            this.taskCount = res.data.taskCount;
+            this.successCount = res.data.successCount;
+            this.progressCount = res.data.progressCount;
+            this.cancelCount = res.data.cancelCount;
+          });
       } else {
-      axios
-      .get(
-        `http://127.0.0.1:8000/api/countTask?schoolId=${this.data.school_id}`
-      )
-      .then((res) => {
-        this.taskCount = res.data.taskCount;
-        this.successCount = res.data.successCount;
-        this.progressCount = res.data.progressCount;
-        this.cancelCount = res.data.cancelCount;
-      });
+        axios
+          .get(
+            `http://127.0.0.1:8000/api/countTask?schoolId=${this.data.school_id}`
+          )
+          .then((res) => {
+            this.taskCount = res.data.taskCount;
+            this.successCount = res.data.successCount;
+            this.progressCount = res.data.progressCount;
+            this.cancelCount = res.data.cancelCount;
+          });
       }
     },
-
 
     changeSelectedFilterSchool(selectedName, selectedId) {
       this.selectedFilterSchoolName = selectedName;
@@ -421,15 +436,15 @@ export default {
           });
       } else {
         axios
-      .get(
-        `http://127.0.0.1:8000/api/countUser?schoolId=${this.data.school_id}`
-      )
-      .then((res) => {
-        this.userCount = res.data.totalCount;
-        this.pengurusCount = res.data.pengurusCount;
-        this.anggotaCount = res.data.anggotaCount;
-        this.adminCount = res.data.adminCount;
-      });
+          .get(
+            `http://127.0.0.1:8000/api/countUser?schoolId=${this.data.school_id}`
+          )
+          .then((res) => {
+            this.userCount = res.data.totalCount;
+            this.pengurusCount = res.data.pengurusCount;
+            this.anggotaCount = res.data.anggotaCount;
+            this.adminCount = res.data.adminCount;
+          });
       }
     },
   },
@@ -500,7 +515,6 @@ export default {
         this.adminCount = res.data.adminCount;
       });
 
-
     // get Task
     axios
       .get(
@@ -520,9 +534,11 @@ export default {
       this.general.successTaskCount = res.data.successTaskCount;
     });
     // get school
-    axios.get("http://127.0.0.1:8000/api/schools?search=&paginate=100&page=1").then((res) => {
-      this.schools = res.data.data;
-    });
+    axios
+      .get("http://127.0.0.1:8000/api/schools?search=&paginate=100&page=1")
+      .then((res) => {
+        this.schools = res.data.data;
+      });
   },
 };
 </script>

@@ -61,7 +61,7 @@
                       <th>ID</th>
                       <th>Nama Sekolah</th>
                       <th>Alamat</th>
-                      <th>Deskripsi</th>
+                      <!-- <th>Deskripsi</th> -->
                       <th>Opsi</th>
                     </tr>
                     <tbody v-if="!loading && schools.length">
@@ -69,9 +69,9 @@
                         <td>FS-{{ school.id }}</td>
                         <td>{{ school.name }}</td>
                         <td>{{ school.address }}</td>
-                        <td>
+                        <!-- <td>
                           {{ school.description }}
-                        </td>
+                        </td> -->
                         <td>
                           <div>
                             <button
