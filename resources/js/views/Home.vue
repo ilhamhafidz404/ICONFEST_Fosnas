@@ -20,8 +20,8 @@
                   >!
                 </h2>
                 <p class="lead">
-                  You almost arrived, complete the information about your account
-                  to complete registration.
+                  You almost arrived, complete the information about your
+                  account to complete registration.
                 </p>
                 <div class="mt-4">
                   <a
@@ -34,7 +34,10 @@
             </div>
           </div>
           <div v-if="role != 'super admin'" class="col-md-6">
-            <div id="carouselExampleIndicators" class="carousel slide rounded overflow-hidden">
+            <div
+              id="carouselExampleIndicators"
+              class="carousel slide rounded overflow-hidden"
+            >
               <div class="carousel-indicators">
                 <button
                   type="button"
@@ -59,13 +62,25 @@
               </div>
               <div class="carousel-inner">
                 <div class="carousel-item active">
-                  <img src="/template/img/unsplash/eberhard-grossgasteiger-1207565-unsplash.jpg" class="d-block w-100" alt="..." />
+                  <img
+                    src="/template/img/unsplash/eberhard-grossgasteiger-1207565-unsplash.jpg"
+                    class="d-block w-100"
+                    alt="..."
+                  />
                 </div>
                 <div class="carousel-item">
-                  <img src="/template/img/unsplash/andre-benz-1214056-unsplash.jpg" class="d-block w-100" alt="..." />
+                  <img
+                    src="/template/img/unsplash/andre-benz-1214056-unsplash.jpg"
+                    class="d-block w-100"
+                    alt="..."
+                  />
                 </div>
                 <div class="carousel-item">
-                  <img src="/template/img/unsplash/eberhard-grossgasteiger-1207565-unsplash.jpg" class="d-block w-100" alt="..." />
+                  <img
+                    src="/template/img/unsplash/eberhard-grossgasteiger-1207565-unsplash.jpg"
+                    class="d-block w-100"
+                    alt="..."
+                  />
                 </div>
               </div>
               <button
@@ -74,7 +89,10 @@
                 data-bs-target="#carouselExampleIndicators"
                 data-bs-slide="prev"
               >
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
               </button>
               <button
                 class="carousel-control-next"
@@ -82,17 +100,20 @@
                 data-bs-target="#carouselExampleIndicators"
                 data-bs-slide="next"
               >
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
               </button>
             </div>
           </div>
           <div v-if="role != 'super admin'" class="col-md-6">
             <div class="flex align-items-center justify-content-between">
               <h1 class="text-2xl font-bold">Informasi Sekolahmu</h1>
-              <button 
+              <button
                 v-if="role == 'admin sekolah'"
-                class="btn btn-sm btn-primary" 
-                data-bs-toggle="modal" 
+                class="btn btn-sm btn-primary"
+                data-bs-toggle="modal"
                 data-bs-target="#schoolModalForm"
               >
                 Edit Data Sekolah
@@ -105,7 +126,6 @@
         </div>
       </div>
     </section>
-
 
     <!--  -->
     <div
@@ -150,38 +170,38 @@
                 </div>
               </div>
               <div class="form-group mb-1">
-                  <label>Address</label>
-                  <textarea 
-                    class="form-control"
-                      :class="{ 'is-invalid': errors.address }"
-                      v-model="school.address"
-                  ></textarea>
-                  <div class="invalid-feedback">
-                    {{ errors.address }}
-                  </div>
+                <label>Address</label>
+                <textarea
+                  class="form-control"
+                  :class="{ 'is-invalid': errors.address }"
+                  v-model="school.address"
+                ></textarea>
+                <div class="invalid-feedback">
+                  {{ errors.address }}
                 </div>
-                <div class="form-group mb-1">
-                  <label>Description</label>
-                  <textarea 
-                    class="form-control"
-                      :class="{ 'is-invalid': errors.description }"
-                      v-model="school.description"
-                  ></textarea>
-                  <div class="invalid-feedback">
-                    {{ errors.description }}
-                  </div>
+              </div>
+              <div class="form-group mb-1">
+                <label>Description</label>
+                <textarea
+                  class="form-control"
+                  :class="{ 'is-invalid': errors.description }"
+                  v-model="school.description"
+                ></textarea>
+                <div class="invalid-feedback">
+                  {{ errors.description }}
                 </div>
-                <div class="form-group mb-1">
-                  <label>Map</label>
-                  <textarea 
-                    class="form-control"
-                      :class="{ 'is-invalid': errors.map }"
-                      v-model="school.map"
-                  ></textarea>
-                  <div class="invalid-feedback">
-                    {{ errors.map }}
-                  </div>
+              </div>
+              <div class="form-group mb-1">
+                <label>Map</label>
+                <textarea
+                  class="form-control"
+                  :class="{ 'is-invalid': errors.map }"
+                  v-model="school.map"
+                ></textarea>
+                <div class="invalid-feedback">
+                  {{ errors.map }}
                 </div>
+              </div>
             </form>
           </div>
           <div class="modal-footer">
@@ -199,15 +219,14 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
 export default {
   props: ["role", "data"],
-  data(){
-    return{
+  data() {
+    return {
       school: {
         id: 0,
         name: "",
@@ -225,85 +244,92 @@ export default {
         map: "",
         countError: 0,
       },
-    }
+    };
   },
-  methods : {
-    handleSubmit(){
-      this.errors.countError= 0;
+  methods: {
+    handleSubmit() {
+      this.errors.countError = 0;
       this.checkError();
 
-      if(!this.errors.countError){
+      if (!this.errors.countError) {
         $("#schoolModalForm").modal("hide");
-        axios.put(`http://127.0.0.1:8000/api/schools/${this.data.school.id}`, this.school).then((res) => {
-          this.$swal(
-             "Berhasil Edit Data Sekolah",
-             "Data sekolah telah berhasil diedit",
-             "success"
-           );
-        });
+        axios
+          .put(
+            `http://127.0.0.1:8000/api/schools/${this.data.school.id}`,
+            this.school
+          )
+          .then((res) => {
+            this.$swal(
+              "Berhasil Edit Data Sekolah",
+              "Data sekolah telah berhasil diedit",
+              "success"
+            );
+          });
       }
     },
-    getMySchool(){
-      axios.get(`http://127.0.0.1:8000/api/schools/${this.data.school.id}`).then((res) =>{
-        this.school.id = res.data.id;
-        this.school.name = res.data.name;
-        this.school.images = res.data.images;
-        this.school.address = res.data.address;
-        this.school.map = res.data.map;
-        this.school.description = res.data.description;
-        this.school.created_at = res.data.created_at;
-      })
+    getMySchool() {
+      axios
+        .get(`http://127.0.0.1:8000/api/schools/${this.data.school.id}`)
+        .then((res) => {
+          this.school.id = res.data.id;
+          this.school.name = res.data.name;
+          this.school.images = res.data.images;
+          this.school.address = res.data.address;
+          this.school.map = res.data.map;
+          this.school.description = res.data.description;
+          this.school.created_at = res.data.created_at;
+        });
     },
     checkError() {
-        if (this.school.name == "") {
-          this.errors.name = "nama harus diisi";
-          this.errors.countError += 1;
-        } else {
-          this.errors.name = "";
-        }
+      if (this.school.name == "") {
+        this.errors.name = "nama harus diisi";
+        this.errors.countError += 1;
+      } else {
+        this.errors.name = "";
+      }
 
-        if (this.school.address == "") {
-          this.errors.address = "address harus diisi";
-          this.errors.countError += 1;
-        } else {
-          this.errors.address = "";
-        }
+      if (this.school.address == "") {
+        this.errors.address = "address harus diisi";
+        this.errors.countError += 1;
+      } else {
+        this.errors.address = "";
+      }
 
-        if (this.school.description == "") {
-          this.errors.description = "description harus diisi";
-          this.errors.countError += 1;
-        } else {
-          this.errors.description = "";
-        }
-      },
+      if (this.school.description == "") {
+        this.errors.description = "description harus diisi";
+        this.errors.countError += 1;
+      } else {
+        this.errors.description = "";
+      }
+    },
     resetSchoolDataAndErrors() {
-        this.school = {
-          id: 0,
-          name: "",
-          address: "",
-          description: "",
-          images: "",
-          map: ""
-        };
+      this.school = {
+        id: 0,
+        name: "",
+        address: "",
+        description: "",
+        images: "",
+        map: "",
+      };
 
-        this.errors = {
-          id: 0,
-          name: "",
-          address: "",
-          description: "",
-          images: "",
-          map: "",
-          countError: 0
-        };
-     },
-    closeModal(){
+      this.errors = {
+        id: 0,
+        name: "",
+        address: "",
+        description: "",
+        images: "",
+        map: "",
+        countError: 0,
+      };
+    },
+    closeModal() {
       this.resetSchoolDataAndErrors();
       this.getMySchool();
-    }
+    },
   },
-  mounted(){
+  mounted() {
     this.getMySchool();
-  }
+  },
 };
 </script>
 

@@ -16,7 +16,7 @@
             <span>Home</span>
           </router-link>
         </li>
-        <!-- <li
+        <li
           @click="activate('/dashboard')"
           :class="{ active: activeEl == '/dashboard' }"
         >
@@ -24,7 +24,7 @@
             <i class="fas fa-fire"></i>
             <span>Dashboard</span>
           </router-link>
-        </li> -->
+        </li>
         <li
           @click="activate('/schools')"
           :class="{ active: activeEl == '/schools' }"
@@ -80,15 +80,15 @@
             <span>Home</span>
           </router-link>
         </li>
-        <!-- <li
+        <li
           @click="activate('/dashboard')"
           :class="{ active: activeEl == '/dashboard' }"
         >
-          <router-link class="nav-link" to="/admin/dashboard">
+          <router-link class="nav-link" to="/dashboard">
             <i class="fas fa-fire"></i>
             <span>Dashboard</span>
           </router-link>
-        </li> -->
+        </li>
         <li
           @click="activate('/users')"
           :class="{ active: activeEl == '/users' }"
@@ -116,10 +116,22 @@
             <span>Aktifitas</span>
           </router-link>
         </li>
-        <li @click="activate('/freeagents')" :class="{ active: activeEl == '/freeagents' }">
+        <li
+          @click="activate('/freeagents')"
+          :class="{ active: activeEl == '/freeagents' }"
+        >
           <router-link class="nav-link" to="/freeagents">
             <i class="far fa-id-badge"></i>
             <span>Free Agent</span>
+          </router-link>
+        </li>
+        <li
+          @click="activate('/schools')"
+          :class="{ active: activeEl == '/schools' }"
+        >
+          <router-link class="nav-link" to="/schools">
+            <i class="fas fa-school"></i>
+            <span>Sekolah</span>
           </router-link>
         </li>
         <!-- <li
@@ -141,15 +153,15 @@
             <span>Home</span>
           </router-link>
         </li>
-        <!-- <li
+        <li
           @click="activate('/dashboard')"
           :class="{ active: activeEl == '/dashboard' }"
         >
-          <router-link class="nav-link" to="/pengurus/dashboard">
+          <router-link class="nav-link" to="/dashboard">
             <i class="fas fa-fire"></i>
             <span>Dashboard</span>
           </router-link>
-        </li> -->
+        </li>
         <li
           @click="activate('/users')"
           :class="{ active: activeEl == '/users' }"
@@ -175,6 +187,15 @@
           <router-link class="nav-link" to="/activities">
             <i class="fas fa-chart-line"></i>
             <span>Aktifitas</span>
+          </router-link>
+        </li>
+        <li
+          @click="activate('/schools')"
+          :class="{ active: activeEl == '/schools' }"
+        >
+          <router-link class="nav-link" to="/schools">
+            <i class="fas fa-school"></i>
+            <span>Sekolah</span>
           </router-link>
         </li>
         <!-- <li
@@ -197,6 +218,15 @@
           </router-link>
         </li>
         <li
+          @click="activate('/dashboard')"
+          :class="{ active: activeEl == '/dashboard' }"
+        >
+          <router-link class="nav-link" to="/dashboard">
+            <i class="fas fa-fire"></i>
+            <span>Dashboard</span>
+          </router-link>
+        </li>
+        <li
           @click="activate('/schools')"
           :class="{ active: activeEl == '/schools' }"
         >
@@ -205,15 +235,6 @@
             <span>Sekolah</span>
           </router-link>
         </li>
-        <!-- <li
-          @click="activate('/dashboard')"
-          :class="{ active: activeEl == '/dashboard' }"
-        >
-          <router-link class="nav-link" to="/anggota/dashboard">
-            <i class="fas fa-fire"></i>
-            <span>Dashboard</span>
-          </router-link>
-        </li> -->
         <li
           @click="activate('/users')"
           :class="{ active: activeEl == '/users' }"

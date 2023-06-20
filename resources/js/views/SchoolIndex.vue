@@ -39,17 +39,13 @@
               >
                 Tambah Sekolah
               </button>
-              <button 
-                class="btn btn-success ml-3" 
-                @click="exportSchool"
-              >
+              <button class="btn btn-success ml-3" @click="exportSchool">
                 Export Excel
               </button>
             </div>
           </div>
         </div>
       </div>
-
 
       <div v-if="!loadingSubmit" class="section-body">
         <div class="row">
@@ -96,7 +92,7 @@
                               <i class="fas fa-trash"></i>
                             </button>
                             <button
-                              v-if="role == 'anggota'"
+                              v-if="role == 'anggota' && data.school_id == 1"
                               class="btn btn-info"
                               data-toggle="tooltip"
                               title="request keanggotaan"
@@ -127,7 +123,7 @@
             </div>
           </div>
 
-          <Pagination 
+          <Pagination
             ref="pagination"
             @setLoading="setLoading"
             @getNewPageData="getTasks"
@@ -165,18 +161,18 @@ import ModalFormSchool from "./../components/ModalFormSchool.vue";
 import ModalDetailSchool from "./../components/ModalDetailSchool.vue";
 export default {
   props: ["role", "data"],
-  components : {
+  components: {
     Pagination,
     ModalFormSchool,
-    ModalDetailSchool
+    ModalDetailSchool,
   },
   data() {
     return {
       schools: [],
 
-      dataRequest : {
+      dataRequest: {
         id: 0,
-        name: ""
+        name: "",
       },
 
       filterSearch: "",
@@ -186,23 +182,23 @@ export default {
     };
   },
   methods: {
-    setLoadingSubmit(){
+    setLoadingSubmit() {
       this.loadingSubmit = !this.loadingSubmit;
     },
-    setLoading(){
+    setLoading() {
       this.loading = !this.loading;
     },
-    getSchool(data, modalTarget){
+    getSchool(data, modalTarget) {
       // const modalFormTaskComp = this.$refs.modalFormTask;
       const modalSchoolDetail = this.$refs.modalSchoolDetail;
 
-      // modalFormTaskComp.task.id = data.id; 
+      // modalFormTaskComp.task.id = data.id;
       // modalFormTaskComp.task.name = data.name;
       // modalFormTaskComp.task.description = data.description;
       // modalFormTaskComp.task.users = data.users;
       // modalFormTaskComp.task.status = data.status;
 
-      modalSchoolDetail.school.id = data.id; 
+      modalSchoolDetail.school.id = data.id;
       modalSchoolDetail.school.name = data.name;
       modalSchoolDetail.school.description = data.description;
       modalSchoolDetail.school.map = data.map;
@@ -210,7 +206,7 @@ export default {
 
       $(modalTarget).modal("show");
     },
-    async getSchools(page = 1){
+    async getSchools(page = 1) {
       try {
         let result = await SchoolGet(this.filterSearch, 10, page);
         this.schools = result.data.data;
@@ -220,9 +216,9 @@ export default {
 
         this.loading = false;
 
-        if(this.filterSearch != ""){
+        if (this.filterSearch != "") {
           this.onSearch = true;
-        } else{
+        } else {
           this.onSearch = false;
         }
       } catch (error) {
@@ -259,7 +255,7 @@ export default {
         }
       });
     },
-    deleteSchool(id) {      
+    deleteSchool(id) {
       this.$swal({
         title: "Apakah kamu yakin?",
         icon: "question",
@@ -279,25 +275,27 @@ export default {
               "Berhasil Dihapus",
               "Data Sekolah telah berhasil dihapus",
               "success"
-            );  
+            );
           });
         }
       });
     },
-    requestAnggota(school){
+    requestAnggota(school) {
       this.loadingSubmit = !this.loadingSubmit;
 
       this.dataRequest.id = school.id;
       this.dataRequest.name = this.data.name;
-      axios.post(`http://127.0.0.1:8000/api/notifications`, this.dataRequest).then((res) =>{
-        this.$swal(
+      axios
+        .post(`http://127.0.0.1:8000/api/notifications`, this.dataRequest)
+        .then((res) => {
+          this.$swal(
             "Berhasil Meminta Keanggotaan",
             "Tunggu admin untuk menerima keanggotaan anda",
             "success"
           );
-        this.loadingSubmit = !this.loadingSubmit;
-      })
-    }
+          this.loadingSubmit = !this.loadingSubmit;
+        });
+    },
   },
   mounted() {
     this.getSchools();

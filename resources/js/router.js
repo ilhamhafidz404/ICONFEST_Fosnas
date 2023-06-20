@@ -42,23 +42,21 @@ const routes = [
     { path: "/schools", component: SchoolIndex },
 
     // url pengurus
-    { path: "/pengurus/dashboard", component: DahsboardPengurus },
-    // { path: "/pengurus/users", component: UserIndexSekolah },
+    // { path: "/pengurus/dashboard", component: DahsboardPengurus },
+    // // { path: "/pengurus/users", component: UserIndexSekolah },
 
-    // url anggota
-    { path: "/anggota/dashboard", component: DashboardAnggota },
-    // { path: "/anggota/users", component: UserIndexSekolah },
+    // // url anggota
+    // { path: "/anggota/dashboard", component: DashboardAnggota },
+    // // { path: "/anggota/users", component: UserIndexSekolah },
 
-    // url admin sekolah
-    { path: "/admin/dashboard", component: DashboardSekolah },
-    // { path: "/admin/users", component: UserIndexSekolah },
-    { path: "/admin/articles/add", component: AddArticle },
-
-    // url super admin
-    { path: "/dashboard", component: DashboardAdmin },
+    // // url admin sekolah
+    // { path: "/admin/dashboard", component: DashboardSekolah },
+    // // { path: "/admin/users", component: UserIndexSekolah },
+    // { path: "/admin/articles/add", component: AddArticle },
 
     // khusus
     { path: "/freeagents", component: FreeAgent },
+    { path: "/dashboard", component: Dashboard },
 ];
 
 const router = createRouter({

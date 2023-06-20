@@ -8,6 +8,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -30,11 +31,14 @@ Route::apiResource('articles', ArticleController::class);
 Route::apiResource('tasks', TaskController::class);
 Route::apiResource('notifications', NotificationController::class);
 Route::apiResource('activities', ActivityController::class);
+Route::get('dashboard', DashboardController::class);
 
 Route::get("countUser", [CountController::class, "users"]);
 Route::get("countSchool", [CountController::class, "schools"]);
+Route::get("countTask", [CountController::class, "tasks"]);
+Route::get("countGeneral", [CountController::class, "generals"]);
 
-Route::put("giveschool/{id}", function(Request $request, $id){
+Route::put("giveschool/{id}", function (Request $request, $id) {
     User::find($id)->update([
         "school_id" => $request->school
     ]);
