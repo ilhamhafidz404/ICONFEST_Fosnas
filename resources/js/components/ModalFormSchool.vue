@@ -22,18 +22,19 @@
           <div class="modal-body">
             <form>
               <div class="form-group mb-1">
-                <label>Name</label>
+                <label for="name">Nama Sekolah</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
-                      <i class="fas fa-user"></i>
+                      <i class="fas fa-school"></i>
                     </div>
                   </div>
                   <input
+                  id="name"
                     type="text"
                     class="form-control"
                     :class="{ 'is-invalid': errors.name }"
-                    placeholder="Name"
+                    placeholder="Nama Sekolah"
                     v-model="school.name"
                   />
                   <div class="invalid-feedback">
@@ -42,33 +43,39 @@
                 </div>
               </div>
               <div class="form-group mb-1">
-                	<label>Address</label>
+                	<label for="address">Alamat Sekolah</label>
                 	<textarea 
+                    id="address"
+                    placeholder="Älamat Sekolah"
                 		class="form-control"
-                    	:class="{ 'is-invalid': errors.address }"
-                    	v-model="school.address"
+                    :class="{ 'is-invalid': errors.address }"
+                    v-model="school.address"
                   ></textarea>
                   <div class="invalid-feedback">
                     {{ errors.address }}
                   </div>
               	</div>
               	<div class="form-group mb-1">
-                	<label>Description</label>
+                	<label for="description">Deskripsi</label>
                 	<textarea 
+                    id="description"
+                    placeholder="Deskripsi / tentang sekolah"
                 		class="form-control"
-                    	:class="{ 'is-invalid': errors.description }"
-                    	v-model="school.description"
+                    :class="{ 'is-invalid': errors.description }"
+                    v-model="school.description"
                   ></textarea>
                   <div class="invalid-feedback">
                     {{ errors.description }}
                   </div>
               	</div>
               	<div class="form-group mb-1">
-                	<label>Map</label>
+                	<label for="map">Peta</label>
                 	<textarea 
+                    id="map"
+                    placeholder="Peta Sekolah di Google Map"
                 		class="form-control"
-                    	:class="{ 'is-invalid': errors.map }"
-                    	v-model="school.map"
+                    :class="{ 'is-invalid': errors.map }"
+                    v-model="school.map"
                   ></textarea>
                   <div class="invalid-feedback">
                     {{ errors.map }}

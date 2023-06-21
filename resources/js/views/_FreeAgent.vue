@@ -53,26 +53,26 @@
                       <tr v-for="(user, index) in users" :key="user.id">
                         <td>{{ index + 1 }}</td>
                         <td>
-                        	<div class="flex align-items-center">
-                        		<img
-	                              alt="image"
-	                              :src="
-	                                user.profile == 'avatar-1.png' ||
-	                                user.profile == 'avatar-2.png' ||
-	                                user.profile == 'avatar-3.png' ||
-	                                user.profile == 'avatar-4.png' ||
-	                                user.profile == 'avatar-5.png'
-	                                  ? `/images/profiles/default/${user.profile}`
-	                                  : `/images/profiles/${user.profile}`
-	                              "
-	                              class="rounded-circle max-w-[35px] max-h-[35px] object-cover mr-3"
-	                              width="35"
-	                              data-toggle="tooltip"
-	                              data-placement="top"
-	                              :title="user.name"
-	                            />
-	                        	{{ user.name }}
-                        	</div>
+                          <div class="flex align-items-center">
+                            <img
+                              alt="image"
+                              :src="
+                                user.profile == 'avatar-1.png' ||
+                                user.profile == 'avatar-2.png' ||
+                                user.profile == 'avatar-3.png' ||
+                                user.profile == 'avatar-4.png' ||
+                                user.profile == 'avatar-5.png'
+                                  ? `/images/profiles/default/${user.profile}`
+                                  : `/images/profiles/${user.profile}`
+                              "
+                              class="rounded-circle max-w-[35px] max-h-[35px] object-cover mr-3"
+                              width="35"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              :title="user.name"
+                            />
+                            {{ user.name }}
+                          </div>
                         </td>
                         <td>
                           <div>
@@ -151,12 +151,7 @@ export default {
     },
     async getUsers(page = 1) {
       try {
-        let result = await UserGet(
-          0,
-          this.filterSearch,
-          10,
-          page
-        );
+        let result = await UserGet(0, this.filterSearch, 10, page);
         this.users = result.data.data;
 
         const pagination = this.$refs.pagination;
@@ -185,8 +180,8 @@ export default {
 
       this.getUsers();
     },
-    giveSchool(user){
-    	this.$swal({
+    giveSchool(user) {
+      this.$swal({
         title: "Apakah kamu yakin?",
         icon: "question",
         text: "Free Agent akan menjadi anggota sekolah",
@@ -197,21 +192,24 @@ export default {
         cancelButtonText: "Batalkan",
       }).then((result) => {
         if (result.value) {
-        	this.setLoadingSubmit()
-        	axios.put(`http://127.0.0.1:8000/api/giveschool/${user.id}`, { school:  this.data.school_id}).then((res) =>{
-	    		this.getUsers();
-	    		this.setLoadingSubmit()
-	    		this.setLoading()
-            this.$swal(
-              "Berhasil Menjadikan Anggota",
-              "Anggota bertambah dari free agent",
-              "success"
-            );
-	    	});
+          this.setLoadingSubmit();
+          axios
+            .put(`http://127.0.0.1:8000/api/giveschool/${user.id}`, {
+              school: this.data.school_id,
+            })
+            .then((res) => {
+              this.getUsers();
+              this.setLoadingSubmit();
+              this.setLoading();
+              this.$swal(
+                "Berhasil Menjadikan Anggota",
+                "Anggota bertambah dari free agent",
+                "success"
+              );
+            });
         }
       });
-    	
-    }
+    },
   },
   mounted() {
     this.getUsers();

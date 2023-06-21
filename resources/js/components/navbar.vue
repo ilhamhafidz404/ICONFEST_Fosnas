@@ -2,7 +2,7 @@
   <div>
     <div class="navbar-bg"></div>
     <nav class="navbar navbar-expand-lg main-navbar">
-      <form class="form-inline mr-auto">
+      <form class="form-inline mr-auto" @submit.prevent="filteredSearch">
         <ul class="navbar-nav mr-3">
           <li>
             <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"
@@ -25,74 +25,58 @@
             placeholder="Search"
             aria-label="Search"
             data-width="250"
+            v-model="filterSearch"
           />
           <button class="btn" type="submit">
             <i class="fas fa-search"></i>
           </button>
           <div class="search-backdrop"></div>
-          <div class="search-result">
-            <div class="search-header">Histories</div>
-            <div class="search-item">
-              <a href="#">How to hack NASA using CSS</a>
-              <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-            </div>
-            <div class="search-item">
-              <a href="#">Kodinger.com</a>
-              <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-            </div>
-            <div class="search-item">
-              <a href="#">#Stisla</a>
-              <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-            </div>
-            <div class="search-header">Result</div>
-            <div class="search-item">
+          <div v-if="users.length && tasks.length" class="search-result">
+            <div v-if="users.length" class="search-header">User</div>
+            <div v-for="user in users" :key="user.id" class="search-item">
               <a href="#">
                 <img
-                  class="mr-3 rounded"
-                  width="30"
-                  src="assets/img/products/product-3-50.png"
-                  alt="product"
+                  alt="image"
+                  :src="
+                    user.profile == 'avatar-1.png' ||
+                    user.profile == 'avatar-2.png' ||
+                    user.profile == 'avatar-3.png' ||
+                    user.profile == 'avatar-4.png' ||
+                    user.profile == 'avatar-5.png'
+                      ? `/images/profiles/default/${user.profile}`
+                      : `/images/profiles/${user.profile}`
+                  "
+                  class="rounded-circle max-w-[35px] max-h-[35px] object-cover mr-3 inline-block"
+                  width="35"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  :title="data.name"
                 />
-                oPhone S9 Limited Edition
+                {{ user.name }}
               </a>
             </div>
-            <div class="search-item">
+
+            <div v-if="tasks.length" class="search-header">Proker</div>
+            <div v-for="task in tasks" :key="task.id" class="search-item">
               <a href="#">
-                <img
-                  class="mr-3 rounded"
-                  width="30"
-                  src="assets/img/products/product-2-50.png"
-                  alt="product"
-                />
-                Drone X2 New Gen-7
+                <span 
+                  class="badge mr-3" 
+                  :class="{
+                    'badge-success' : task.status == 'success',
+                    'badge-warning' : task.status == 'progress',
+                    'badge-danger' : task.status == 'cancel',
+                  }"
+                >
+                  {{ task.status }}
+                </span>
+                {{ task.name }}
               </a>
             </div>
+          </div>
+          <div v-else class="search-result">
             <div class="search-item">
               <a href="#">
-                <img
-                  class="mr-3 rounded"
-                  width="30"
-                  src="assets/img/products/product-1-50.png"
-                  alt="product"
-                />
-                Headphone Blitz
-              </a>
-            </div>
-            <div class="search-header">Projects</div>
-            <div class="search-item">
-              <a href="#">
-                <div class="search-icon bg-danger text-white mr-3">
-                  <i class="fas fa-code"></i>
-                </div>
-                Stisla Admin Template
-              </a>
-            </div>
-            <div class="search-item">
-              <a href="#">
-                <div class="search-icon bg-primary text-white mr-3">
-                  <i class="fas fa-laptop"></i>
-                </div>
-                Create a new Homepage Design
+                Tidak Ada Data
               </a>
             </div>
           </div>
@@ -179,12 +163,24 @@
             data-toggle="dropdown"
             class="nav-link dropdown-toggle nav-link-lg nav-link-user"
           >
-            <!-- <img
+            <img
               alt="image"
-              src="assets/img/avatar/avatar-1.png"
-              class="rounded-circle mr-1"
-            /> -->
-            <div class="d-sm-none d-lg-inline-block">
+              :src="
+                data.profile == 'avatar-1.png' ||
+                data.profile == 'avatar-2.png' ||
+                data.profile == 'avatar-3.png' ||
+                data.profile == 'avatar-4.png' ||
+                data.profile == 'avatar-5.png'
+                  ? `/images/profiles/default/${data.profile}`
+                  : `/images/profiles/${data.profile}`
+              "
+              class="rounded-circle max-w-[35px] max-h-[35px] object-cover mr-3 inline-block"
+              width="35"
+              data-toggle="tooltip"
+              data-placement="top"
+              :title="data.name"
+            />
+            <div class="inline-block">
               {{ data.name }}
             </div>
           </a>
@@ -223,6 +219,11 @@ export default {
     return {
       notifications: [],
       beep: false,
+
+      filterSearch: "",
+
+      users: [],
+      tasks: [],
     };
   },
   methods: {
@@ -231,6 +232,19 @@ export default {
       return date.fromNow();
     },
     //
+    filteredSearch() {
+      axios.get(`
+        http://127.0.0.1:8000/api/users?school=${this.data.school_id}&search=${this.filterSearch}&paginate=3&page=1
+      `).then((res) => {
+        this.users = res.data.data
+      });
+
+      axios.get(`
+        http://127.0.0.1:8000/api/tasks?school=${this.data.school_id}&search=${this.filterSearch}&paginate=3&page=1&user=0
+      `).then((res) => {
+        this.tasks = res.data.data
+      });
+    },
     getNotifications() {
       axios
         .get(`http://127.0.0.1:8000/api/notifications?user_id=${this.data.id}`)
@@ -253,6 +267,7 @@ export default {
   mounted() {
     this.getNotifications();
     setInterval(this.getNotifications, 20000); // Kirim permintaan setiap 20 detik
+    this.filteredSearch()
   },
 };
 </script>
