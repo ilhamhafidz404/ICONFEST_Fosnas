@@ -1,12 +1,22 @@
 <template>
   <div class="main-content">
     <section class="section">
-      <div class="section-header">
+      <div class="section-header flex align-items-center justify-content-between">
         <h1>Aktifitas</h1>
+        <div>
+          <button v-if="!isCalendar" class="btn btn-primary" @click="toggleMode()">
+            <i class="fas fa-calendar mr-1"></i>
+            Lihat Kalender
+          </button>
+          <button v-else class="btn btn-outline-primary" @click="toggleMode()">
+            <i class="fas fa-clock mr-1"></i>
+            Lihat Timeline
+          </button>
+        </div>
       </div>
       <div class="section-body">
         <div v-if="!loading" class="row">
-          <div class="col-12">
+          <div v-if="!isCalendar" class="col-12">
             <div v-if="activities.length" class="activities">
               <div v-for="activity in activities" :key="activity.id" class="activity">
                 <div 
@@ -72,6 +82,9 @@
               </div>
             </div>
           </div>
+          <div v-else class="col-12">
+            <FullCalendar :options="calendarOptions"/>
+          </div>
         </div>
         <div v-else class="text-center h-[500px]">
           <div
@@ -86,12 +99,30 @@
 <script>
 import axios from "axios";
 import moment from "moment";
+//
+import FullCalendar from '@fullcalendar/vue3'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from '@fullcalendar/interaction'
 export default {
   props: ["role", "data"],
+  components: {
+    FullCalendar
+  },
   data () {
     return {
       activities: [],
       loading: true,
+
+      //
+      isCalendar: false,
+      calendarOptions: {
+        plugins: [ dayGridPlugin, interactionPlugin ],
+        initialView: 'dayGridMonth',
+        events: [
+          { title: 'event 1', date: '2023-06-01' },
+          { title: 'event 2', date: '2023-06-02' }
+        ]
+      }
     }
   },
   methods : {
@@ -99,6 +130,10 @@ export default {
       const date = moment(string);
       return date.fromNow();
     },
+    //
+    toggleMode(){
+      this.isCalendar = !this.isCalendar
+    }
   },
   mounted(){
     const urlRequest =
@@ -109,6 +144,13 @@ export default {
     axios.get(urlRequest).then((res) => {
       this.loading = false;
       this.activities= res.data;
+
+      const newArray = res.data.map(obj => {
+        const dateString = obj.updated_at.split('T')[0];
+        return { title: obj.name, date: dateString };
+      });
+
+      this.calendarOptions.events = newArray
     })
   }
 }

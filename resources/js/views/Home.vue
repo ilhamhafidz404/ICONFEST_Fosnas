@@ -20,108 +20,28 @@
                   >!
                 </h2>
                 <p class="lead">
-                  You almost arrived, complete the information about your
-                  account to complete registration.
+                  Mari kita bangun FOSNAS sebagai Forum OSIS Nasional yang kompeten dan professional.
                 </p>
                 <div class="mt-4">
-                  <a
-                    href="#"
-                    class="btn btn-outline-white btn-lg btn-icon icon-left"
-                    ><i class="far fa-user"></i> Setup Account</a
+                  <button
+                    class="btn btn-outline-white btn-lg btn-icon icon-left mr-3"
+                    @click="showSchool(school, '#schoolModalDetail')"
                   >
+                    <i class="fas fa-school"></i>
+                    Lihat Info Sekolah Saya
+                  </button>
+                  <button
+                    v-if="role == 'admin sekolah'"
+                    class="btn btn-outline-primary btn-lg btn-icon icon-left"
+                    data-bs-toggle="modal"
+                    data-bs-target="#schoolModalForm"
+                  >
+                    <i class="fas fa-pen"></i>
+                    Edit Data Sekolah
+                  </button>
                 </div>
               </div>
             </div>
-          </div>
-          <div v-if="role != 'super admin'" class="col-md-6">
-            <div
-              id="carouselExampleIndicators"
-              class="carousel slide rounded overflow-hidden"
-            >
-              <div class="carousel-indicators">
-                <button
-                  type="button"
-                  data-bs-target="#carouselExampleIndicators"
-                  data-bs-slide-to="0"
-                  class="active"
-                  aria-current="true"
-                  aria-label="Slide 1"
-                ></button>
-                <button
-                  type="button"
-                  data-bs-target="#carouselExampleIndicators"
-                  data-bs-slide-to="1"
-                  aria-label="Slide 2"
-                ></button>
-                <button
-                  type="button"
-                  data-bs-target="#carouselExampleIndicators"
-                  data-bs-slide-to="2"
-                  aria-label="Slide 3"
-                ></button>
-              </div>
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img
-                    src="/template/img/unsplash/eberhard-grossgasteiger-1207565-unsplash.jpg"
-                    class="d-block w-100"
-                    alt="..."
-                  />
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="/template/img/unsplash/andre-benz-1214056-unsplash.jpg"
-                    class="d-block w-100"
-                    alt="..."
-                  />
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="/template/img/unsplash/eberhard-grossgasteiger-1207565-unsplash.jpg"
-                    class="d-block w-100"
-                    alt="..."
-                  />
-                </div>
-              </div>
-              <button
-                class="carousel-control-prev"
-                type="button"
-                data-bs-target="#carouselExampleIndicators"
-                data-bs-slide="prev"
-              >
-                <span
-                  class="carousel-control-prev-icon"
-                  aria-hidden="true"
-                ></span>
-              </button>
-              <button
-                class="carousel-control-next"
-                type="button"
-                data-bs-target="#carouselExampleIndicators"
-                data-bs-slide="next"
-              >
-                <span
-                  class="carousel-control-next-icon"
-                  aria-hidden="true"
-                ></span>
-              </button>
-            </div>
-          </div>
-          <div v-if="role != 'super admin'" class="col-md-6">
-            <div class="flex align-items-center justify-content-between">
-              <h1 class="text-2xl font-bold">Informasi Sekolahmu</h1>
-              <button
-                v-if="role == 'admin sekolah'"
-                class="btn btn-sm btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#schoolModalForm"
-              >
-                Edit Data Sekolah
-              </button>
-            </div>
-            <h2 class="mt-4 text-xl font-semibold">{{ school.name }}</h2>
-            <p>{{ school.address }}</p>
-            <p>{{ school.description }}</p>
           </div>
         </div>
       </div>
@@ -154,7 +74,7 @@
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
-                      <i class="fas fa-user"></i>
+                      <i class="fas fa-school"></i>
                     </div>
                   </div>
                   <input
@@ -172,7 +92,7 @@
               <div class="form-group mb-1">
                 <label>Address</label>
                 <textarea
-                  class="form-control"
+                  class="form-control min-h-[100px]"
                   :class="{ 'is-invalid': errors.address }"
                   v-model="school.address"
                 ></textarea>
@@ -183,7 +103,7 @@
               <div class="form-group mb-1">
                 <label>Description</label>
                 <textarea
-                  class="form-control"
+                  class="form-control min-h-[100px]"
                   :class="{ 'is-invalid': errors.description }"
                   v-model="school.description"
                 ></textarea>
@@ -194,7 +114,7 @@
               <div class="form-group mb-1">
                 <label>Map</label>
                 <textarea
-                  class="form-control"
+                  class="form-control min-h-[100px]"
                   :class="{ 'is-invalid': errors.map }"
                   v-model="school.map"
                 ></textarea>
@@ -220,11 +140,21 @@
       </div>
     </div>
   </div>
+
+  <ModalDetailSchool
+    ref="modalSchoolDetail"
+    :role="role"
+    :data="data"
+  ></ModalDetailSchool>
 </template>
 
 <script>
+import ModalDetailSchool from "./../components/ModalDetailSchool.vue";
 export default {
   props: ["role", "data"],
+  components: {
+    ModalDetailSchool,
+  },
   data() {
     return {
       school: {
@@ -266,6 +196,19 @@ export default {
             );
           });
       }
+    },
+    showSchool(data, modalTarget) {
+      const modalSchoolDetail = this.$refs.modalSchoolDetail;
+
+      console.log(modalSchoolDetail)
+
+      modalSchoolDetail.school.id = data.id;
+      modalSchoolDetail.school.name = data.name;
+      modalSchoolDetail.school.description = data.description;
+      modalSchoolDetail.school.map = data.map;
+      modalSchoolDetail.school.address = data.address;
+
+      $(modalTarget).modal("show");
     },
     getMySchool() {
       axios

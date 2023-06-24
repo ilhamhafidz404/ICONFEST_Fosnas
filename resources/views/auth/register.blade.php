@@ -19,7 +19,7 @@
           <div class="row">
             <div class="col-8 offset-2">
               <div class="login-brand">
-                <img src="/template/img/stisla-fill.svg" alt="logo" width="100" class="shadow-light rounded-circle">
+                FOSNAS
               </div>
               <div class="card card-primary">
                 <div class="card-header">
