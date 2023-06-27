@@ -4,7 +4,9 @@
       <div class="section-header">
         <h1>Sekolah</h1>
         <div class="section-header-breadcrumb">
-          <div class="flex align-items-center justify-content-center">
+          <div
+            class="flex flex-row md:flex-col align-items-center justify-content-center"
+          >
             <div class="mr-3">
               <form @submit.prevent="filteredSearch">
                 <div class="relative">

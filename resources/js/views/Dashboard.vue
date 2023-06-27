@@ -1,9 +1,9 @@
 <template>
   <div class="main-content">
     <section class="section">
-      <div class="section-header">
+      <div class="section-header flex items-center justify-between">
         <h1>Dashboard</h1>
-        <div class="section-header-breadcrumb">
+        <div>
           <button
             v-if="data.school_id != 1 || role == 'super admin'"
             @click="showGeneralToggle"
@@ -82,9 +82,9 @@
           School Statistic
         </h2>
         <div v-if="data.school_id != 1 || role == 'super admin'" class="row">
-          <div class="col-8">
+          <div class="col-lg-8 col-12">
             <div class="row">
-              <div class="col-6">
+              <div class="col-md-6 col-12">
                 <div class="card card-statistic-2">
                   <div class="card-stats">
                     <div class="card-stats-title">
@@ -168,7 +168,7 @@
 
               <!--  -->
 
-              <div class="col-6">
+              <div class="col-md-6 col-12">
                 <div class="card card-statistic-2">
                   <div class="card-stats">
                     <div class="card-stats-title">
@@ -260,7 +260,7 @@
                     <h4 v-else>Statistik Proker Anggota FOSNAS</h4>
                     <div class="card-header-action"></div>
                   </div>
-                  <div class="card-body">
+                  <div class="card-body sm:block hidden">
                     <TaskChart
                       v-if="!loading"
                       :chartData="chartData"
@@ -271,7 +271,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-lg-4 col-12">
             <div class="card card-hero">
               <div class="card-header">
                 <div class="card-icon">

@@ -3,36 +3,6 @@
     <section class="section">
       <div class="section-header">
         <h1>Free Agent</h1>
-        <div class="section-header-breadcrumb">
-          <div class="flex align-items-center justify-content-center">
-            <div class="mr-3">
-              <form @submit.prevent="filteredSearch">
-                <div class="relative">
-                  <input
-                    type="text"
-                    class="border border-red-500 rounded p-[10px] bg-gray-50 w-[300px]"
-                    v-model="filterSearch"
-                    placeholder="Search"
-                    @change="filteredSearch"
-                  />
-                  <span
-                    v-if="!onSearch"
-                    class="absolute right-0 top-1/2 -translate-y-1/2 mr-[10px]"
-                  >
-                    <i class="fas fa-search"></i>
-                  </span>
-                  <span
-                    v-else
-                    @click="resetSearch"
-                    class="absolute right-0 top-1/2 -translate-y-1/2 mr-[10px]"
-                  >
-                    <i class="fas fa-times"></i>
-                  </span>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
       </div>
       <div v-if="!loadingSubmit" class="section-body">
         <div class="row">

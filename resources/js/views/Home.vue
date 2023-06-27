@@ -13,14 +13,15 @@
                 background-image: url('/template/img/unsplash/eberhard-grossgasteiger-1207565-unsplash.jpg');
               "
             >
-              <div class="hero-inner">
+              <div class="hero-inner md:!text-left !text-center">
                 <h2>
                   Welcome Back,
                   <span class="font-bold uppercase">{{ data.name }}</span
                   >!
                 </h2>
                 <p class="lead">
-                  Mari kita bangun FOSNAS sebagai Forum OSIS Nasional yang kompeten dan professional.
+                  Mari kita bangun FOSNAS sebagai Forum OSIS Nasional yang
+                  kompeten dan professional.
                 </p>
                 <div class="mt-4">
                   <button
@@ -32,7 +33,7 @@
                   </button>
                   <button
                     v-if="role == 'admin sekolah'"
-                    class="btn btn-outline-primary btn-lg btn-icon icon-left"
+                    class="btn btn-outline-primary btn-lg btn-icon icon-left sm:mt-0 mt-[15px]"
                     data-bs-toggle="modal"
                     data-bs-target="#schoolModalForm"
                   >
@@ -200,7 +201,7 @@ export default {
     showSchool(data, modalTarget) {
       const modalSchoolDetail = this.$refs.modalSchoolDetail;
 
-      console.log(modalSchoolDetail)
+      console.log(modalSchoolDetail);
 
       modalSchoolDetail.school.id = data.id;
       modalSchoolDetail.school.name = data.name;

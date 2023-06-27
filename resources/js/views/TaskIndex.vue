@@ -4,7 +4,7 @@
       <div class="section-header">
         <h1>Program Kerja</h1>
         <div class="section-header-breadcrumb">
-          <div class="flex align-items-center justify-content-center">
+          <div class="flex md:flex-row flex-col items-center justify-center">
             <div class="mr-3">
               <form @submit.prevent="filteredSearch">
                 <div class="relative">
@@ -31,7 +31,7 @@
                 </div>
               </form>
             </div>
-            <div>
+            <div class="md:mt-0 mt-[15px]">
               <button
                 v-if="
                   role != 'anggota' &&
@@ -55,18 +55,22 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
-              <div class="card-header flex justify-content-between">
+              <div
+                class="card-header flex sm:justify-content-between justify-content-center"
+              >
                 <h4 v-if="role == 'super admin'">
                   Data Program Kerja Anggota FOSNAS
                 </h4>
-                <h4 v-else>Data Program Kerja {{ data.school.name }}</h4>
+                <h4 v-else class="sm:text-left text-center">
+                  Data Program Kerja {{ data.school.name }}
+                </h4>
 
                 <button
                   v-if="
                     !thisMyTasks && role != 'super admin' && role != 'anggota'
                   "
                   @click="getMyTask(1, data.id)"
-                  class="btn btn-secondary"
+                  class="btn btn-secondary sm:mt-0 mt-[15px]"
                 >
                   Filter proker saya
                 </button>

@@ -42,14 +42,14 @@
   <script src={{ @asset("template/js/stisla.js") }}></script>
   
   <!-- JS Libraies -->
-  <script src={{ @asset("template/modules/jquery.sparkline.min.js") }}></script>
+  {{-- <script src={{ @asset("template/modules/jquery.sparkline.min.js") }}></script>
   <script src={{ @asset("template/modules/chart.min.js") }}></script>
   <script src={{ @asset("template/modules/owlcarousel2/dist/owl.carousel.min.js") }}></script>
   <script src={{ @asset("template/modules/chocolat/dist/js/jquery.chocolat.min.js") }}></script>
-  <script src={{ @asset("template/modules/jquery-selectric/jquery.selectric.min.js") }}></script>
+  <script src={{ @asset("template/modules/jquery-selectric/jquery.selectric.min.js") }}></script> --}}
 
   
-  <script src="https://unpkg.com/@vueup/vue-quill@latest"></script>
+  {{-- <script src="https://unpkg.com/@vueup/vue-quill@latest"></script> --}}
 
   <script>
     $(function () {

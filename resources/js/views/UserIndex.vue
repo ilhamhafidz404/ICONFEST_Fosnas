@@ -4,7 +4,7 @@
       <div class="section-header">
         <h1>User</h1>
         <div class="section-header-breadcrumb">
-          <div class="flex align-items-center justify-content-center">
+          <div class="flex md:flex-row flex-col items-center justify-center">
             <div class="mr-3">
               <form @submit.prevent="filteredSearch">
                 <div class="relative">
@@ -31,7 +31,7 @@
                 </div>
               </form>
             </div>
-            <div>
+            <div class="md:mt-0 mt-[15px]">
               <button
                 v-if="role != 'anggota' && role != 'pengurus osis'"
                 class="btn btn-primary"
