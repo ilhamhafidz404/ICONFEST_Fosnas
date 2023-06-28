@@ -55,9 +55,7 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
-              <div
-                class="card-header flex sm:justify-content-between justify-content-center"
-              >
+              <div class="card-header flex sm:justify-between justify-center">
                 <h4 v-if="role == 'super admin'">
                   Data Program Kerja Anggota FOSNAS
                 </h4>
@@ -138,7 +136,7 @@
                           </span>
                         </td>
                         <td>
-                          <div>
+                          <div class="flex">
                             <button
                               class="btn btn-primary"
                               title="Detail"

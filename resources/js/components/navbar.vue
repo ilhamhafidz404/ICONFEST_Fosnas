@@ -31,7 +31,7 @@
             <i class="fas fa-search"></i>
           </button>
           <div class="search-backdrop"></div>
-          <div v-if="users.length && tasks.length" class="search-result">
+          <div v-if="users.length || tasks.length" class="search-result">
             <div v-if="users.length" class="search-header">User</div>
             <div v-for="user in users" :key="user.id" class="search-item">
               <a href="#">
@@ -59,12 +59,12 @@
             <div v-if="tasks.length" class="search-header">Proker</div>
             <div v-for="task in tasks" :key="task.id" class="search-item">
               <a href="#">
-                <span 
-                  class="badge mr-3" 
+                <span
+                  class="badge mr-3"
                   :class="{
-                    'badge-success' : task.status == 'success',
-                    'badge-warning' : task.status == 'progress',
-                    'badge-danger' : task.status == 'cancel',
+                    'badge-success': task.status == 'success',
+                    'badge-warning': task.status == 'progress',
+                    'badge-danger': task.status == 'cancel',
                   }"
                 >
                   {{ task.status }}
@@ -75,9 +75,7 @@
           </div>
           <div v-else class="search-result">
             <div class="search-item">
-              <a href="#">
-                Tidak Ada Data
-              </a>
+              <a href="#"> Tidak Ada Data </a>
             </div>
           </div>
         </div>
@@ -233,17 +231,25 @@ export default {
     },
     //
     filteredSearch() {
-      axios.get(`
+      axios
+        .get(
+          `
         http://127.0.0.1:8000/api/users?school=${this.data.school_id}&search=${this.filterSearch}&paginate=3&page=1
-      `).then((res) => {
-        this.users = res.data.data
-      });
+      `
+        )
+        .then((res) => {
+          this.users = res.data.data;
+        });
 
-      axios.get(`
+      axios
+        .get(
+          `
         http://127.0.0.1:8000/api/tasks?school=${this.data.school_id}&search=${this.filterSearch}&paginate=3&page=1&user=0
-      `).then((res) => {
-        this.tasks = res.data.data
-      });
+      `
+        )
+        .then((res) => {
+          this.tasks = res.data.data;
+        });
     },
     getNotifications() {
       axios
@@ -267,7 +273,7 @@ export default {
   mounted() {
     this.getNotifications();
     setInterval(this.getNotifications, 20000); // Kirim permintaan setiap 20 detik
-    this.filteredSearch()
+    this.filteredSearch();
   },
 };
 </script>

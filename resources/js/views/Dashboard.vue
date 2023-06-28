@@ -283,7 +283,7 @@
                 </div>
               </div>
               <div class="card-body p-0">
-                <div class="tickets-list">
+                <div v-if="taskOnProgress.length" class="tickets-list">
                   <div
                     v-for="task in taskOnProgress"
                     :key="task.id"
@@ -326,12 +326,13 @@
                       </div>
                     </div>
                   </div>
-                  <a
-                    href="features-tickets.html"
-                    class="ticket-item ticket-more"
-                  >
-                    View All <i class="fas fa-chevron-right"></i>
-                  </a>
+                </div>
+                <div v-else class="tickets-list">
+                  <div class="ticket-item">
+                    <div class="ticket-title">
+                      <h4>Tidak ada proker yang dalam pengerjaan</h4>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -95,9 +95,9 @@
                     Silahkan selesaikan 1 program kerja untuk record activity
                     anda!
                   </p>
-                  <router-link to="/tasks" class="btn btn-primary mt-4"
+                  <!-- <router-link to="/tasks" class="btn btn-primary mt-4"
                     >Lihat Program Kerja</router-link
-                  >
+                  > -->
                 </div>
               </div>
             </div>

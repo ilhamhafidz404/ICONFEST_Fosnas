@@ -63,19 +63,15 @@
                       <th>ID</th>
                       <th>Nama Sekolah</th>
                       <th>Alamat</th>
-                      <!-- <th>Deskripsi</th> -->
                       <th>Opsi</th>
                     </tr>
                     <tbody v-if="!loading && schools.length">
                       <tr v-for="school in schools" :key="school.id">
-                        <td>FS-{{ school.id }}</td>
-                        <td>{{ school.name }}</td>
+                        <td class="min-w-[100px]">FS-{{ school.id }}</td>
+                        <td class="min-w-[250px]">{{ school.name }}</td>
                         <td>{{ school.address }}</td>
-                        <!-- <td>
-                          {{ school.description }}
-                        </td> -->
                         <td>
-                          <div>
+                          <div class="flex">
                             <button
                               class="btn btn-primary mr-2"
                               data-toggle="tooltip"

@@ -6,10 +6,10 @@
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
       <div class="modal-content card author-box card-primary">
-        <div class="card-body flex justify-start gap-10">
-          <div class="author-box-left text-center w-[40%]">
+        <div class="card-body text-center">
+          <div class="text-center">
             <img
               v-if="user.profile"
               alt="image"
@@ -36,19 +36,19 @@
               {{ user.role }}
             </span>
           </div>
-          <div>
+          <div class="mt-[15px]">
             <div class="author-box-name">
               <a href="#">{{ user.name }}</a>
             </div>
             <div class="author-box-job">{{ user.email }}</div>
-            <div class="author-box-description">
+            <!-- <div class="author-box-description">
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                 enim ad minim veniam, quis nostrud exercitation ullamco laboris
                 nisi ut aliquip ex ea commodo consequat.
               </p>
-            </div>
+            </div> -->
             <div class="modal-footer mt-[10px]">
               <button
                 @click="closeModal"

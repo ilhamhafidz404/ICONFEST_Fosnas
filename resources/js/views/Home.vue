@@ -23,7 +23,13 @@
                   Mari kita bangun FOSNAS sebagai Forum OSIS Nasional yang
                   kompeten dan professional.
                 </p>
-                <div class="mt-4">
+                <div
+                  v-if="
+                    (role == 'anggota' || role == 'super admin') &&
+                    data.school_id == 1
+                  "
+                ></div>
+                <div v-else class="mt-4">
                   <button
                     class="btn btn-outline-white btn-lg btn-icon icon-left mr-3"
                     @click="showSchool(school, '#schoolModalDetail')"

@@ -87,7 +87,7 @@
                           </span>
                         </td>
                         <td>
-                          <div>
+                          <div class="flex">
                             <button
                               class="btn btn-primary"
                               title="Detail"
