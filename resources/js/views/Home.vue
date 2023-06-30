@@ -119,7 +119,12 @@
                 </div>
               </div>
               <div class="form-group mb-1">
-                <label>Map</label>
+                <div class="flex items-center justify-between">
+                  <label for="map">Peta</label>
+                  <a href="/mapInsert" target="_blank" class="text-primary">
+                    <small>Cara insert peta</small>
+                  </a>
+                </div>
                 <textarea
                   class="form-control min-h-[100px]"
                   :class="{ 'is-invalid': errors.map }"

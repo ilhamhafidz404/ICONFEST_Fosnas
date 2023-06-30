@@ -24,6 +24,9 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get("/mapInsert", function () {
+        return response()->download(public_path('video/mapTutorial.mp4'));
+    });
     Route::view("/confirm-logout", 'confirmLogout');
 
     // exports
